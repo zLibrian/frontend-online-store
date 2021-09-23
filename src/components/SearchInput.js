@@ -1,24 +1,31 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import searchIcon from '../images/searchIcon.svg';
 
-export default function SearchInput({ fetchFood }) {
+export default function SearchInput(props) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
     search: '',
     radioSelect: '',
   });
+  const history = useHistory();
 
   function handleSearchBar({ target }) {
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
   }
   async function handleClick() {
+    const { pathname } = history.location;
     const { search, radioSelect } = headerFilterBar;
     if (search.length > 1 && radioSelect === 'f') {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
-    const request = await fetchFood(radioSelect, search);
+    const request = await props.fetchFood(radioSelect, search);
     console.log(request);
+    const typeRecipe = request.meals || request.drinks;
+    if (typeRecipe.length === 1) {
+      history.push(`${pathname}/${typeRecipe[0].idMeal || typeRecipe[0].idDrink}`);
+    }
   }
   function renderSearchBar() {
     return (
