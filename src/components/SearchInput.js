@@ -1,40 +1,79 @@
 import React, { useState } from 'react';
 import searchIcon from '../images/searchIcon.svg';
-
-function renderSearchBar() {
-  return (
-    <div>
-      <input type="text" data-testid="search-input" />
-      <label htmlFor="ingredient">
-        Ingredientes
-        <input
-          id="ingredient"
-          type="radio"
-          data-testid="ingredient-search-radio"
-        />
-      </label>
-      <label htmlFor="name-search">
-        Nome
-        <input
-          id="name-search"
-          type="radio"
-          data-testid="name-search-radio"
-        />
-      </label>
-      <label htmlFor="first-letter">
-        Primeira letra
-        <input
-          id="first-letter"
-          type="radio"
-          data-testid="first-letter-search-radio"
-        />
-      </label>
-      <button type="button" data-testid="exec-search-btn">Buscar</button>
-    </div>
-  );
-}
+import fetchApiRecipes from '../services';
 
 export default function SearchInput() {
+  const [headerFilterBar, setHeaderFilterBar] = useState({
+    search: '',
+    radioSelect: '',
+  });
+
+  function handleSearchBar({ target }) {
+    console.log(target.value);
+    const { name, value } = target;
+    setHeaderFilterBar({ ...headerFilterBar, [name]: value });
+  }
+  async function handleClick() {
+    const { search, radioSelect } = headerFilterBar;
+    if (search.length > 1 && radioSelect === 'f') {
+      return global.alert('Sua busca deve conter somente 1 (um) caracter');
+    }
+    const request = await fetchApiRecipes(radioSelect, search);
+    console.log(request);
+  }
+  function renderSearchBar() {
+    return (
+      <div>
+        <input
+          type="text"
+          data-testid="search-input"
+          name="search"
+          value={ headerFilterBar.search }
+          onChange={ handleSearchBar }
+        />
+        <label htmlFor="ingredient">
+          Ingredientes
+          <input
+            value="i"
+            name="radioSelect"
+            id="ingredient"
+            type="radio"
+            data-testid="ingredient-search-radio"
+            onChange={ handleSearchBar }
+          />
+        </label>
+        <label htmlFor="name-search">
+          Nome
+          <input
+            value="s"
+            name="radioSelect"
+            id="name-search"
+            type="radio"
+            data-testid="name-search-radio"
+            onChange={ handleSearchBar }
+          />
+        </label>
+        <label htmlFor="first-letter">
+          Primeira letra
+          <input
+            value="f"
+            name="radioSelect"
+            id="first-letter"
+            type="radio"
+            data-testid="first-letter-search-radio"
+            onChange={ handleSearchBar }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="exec-search-btn"
+          onClick={ handleClick }
+        >
+          Buscar
+        </button>
+      </div>
+    );
+  }
   const [toggleInput, setToggleInput] = useState(false);
   return (
     <div>
