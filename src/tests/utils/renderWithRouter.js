@@ -19,4 +19,7 @@ function renderWithRouter(componentToRender) {
 }
 
 export default renderWithRouter;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 12e865023c9d35e3f1beff787fc31e98593c6fec

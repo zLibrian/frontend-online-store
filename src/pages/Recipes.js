@@ -1,15 +1,60 @@
 import React from 'react';
 import { Route, Switch } from 'react-router';
 import Provider from '../context/Provider';
+import FoodRecipes from './FoodRecipes';
+import DrinkRecipes from './DrinkRecipes';
+import Explore from './Explore';
 import Login from './Login';
+import ExploreFood from './ExploreFood';
+import ExploreDrink from './ExploreDrink';
+import ExploreIngredientFood from './ExploreIngredientFood';
+import ExploreIngredientDrink from './ExploreIngredientDrink';
+import ExploreFoodArea from './ExploreFoodArea';
+import Perfil from './Perfil';
+import DoneRecipe from './DoneRecipe';
+import FavoriteRecipe from './FavoriteRecipe';
 
 export default function Recipes() {
   return (
     <div>
       <Provider>
         <Switch>
-
-          <Route exact patch="/" component={ Login } />
+          <Route exact path="/" component={ Login } />
+          <Route exact path="/comidas" component={ FoodRecipes } />
+          <Route exact path="/bebidas" component={ DrinkRecipes } />
+          {/* <Route exact path="/comidas/{id-da-receita}" component={ DetailRecipeFood } />
+          <Route exact path="/bebidas/{id-da-receita}" component={ DetailRecipeDrink } />
+          <Route
+            exact
+            path="/comidas/{id-da-receita}/in-progress"
+            component={ ProgressRecipeFood }
+          />
+          <Route
+            exact
+            path="/bebidas/{id-da-receita}/in-progress"
+            component={ ProgressRecipeDrink }
+          /> */}
+          <Route exact path="/explorar" component={ Explore } />
+          <Route exact path="/explorar/comidas" component={ ExploreFood } />
+          <Route exact path="/explorar/bebidas" component={ ExploreDrink } />
+          <Route
+            exact
+            path="/explorar/comidas/ingredientes"
+            component={ ExploreIngredientFood }
+          />
+          <Route
+            exact
+            path="/explorar/bebidas/ingredientes"
+            component={ ExploreIngredientDrink }
+          />
+          <Route
+            exact
+            path="/explorar/comidas/area"
+            component={ ExploreFoodArea }
+          />
+          <Route exact path="/perfil" component={ Perfil } />
+          <Route exact path="/receitas-feitas" component={ DoneRecipe } />
+          <Route exact path="/receitas-favoritas" component={ FavoriteRecipe } />
         </Switch>
       </Provider>
     </div>
