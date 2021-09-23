@@ -21,8 +21,8 @@ function Provider({ children }) {
   );
   const [recipesApp, setRecipesApp] = useState({
     dataCategoryFoodAPI: {},
-    dataAreasFoodAPI: {},
-    dataIngredientsFoodAPI: {},
+    //dataAreasFoodAPI: {},
+    //dataIngredientsFoodAPI: {},
   });
 
   useEffect(() => {

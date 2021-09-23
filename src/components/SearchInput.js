@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import searchIcon from '../images/searchIcon.svg';
+import recipesContext from '../context/recipesContext';
 
 export default function SearchInput(props) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
     search: '',
     radioSelect: '',
+    apiFoodResult: [],
   });
   const history = useHistory();
-
+    const { recipesApp, setRecipesApp } = useContext(recipesContext);
   function handleSearchBar({ target }) {
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
@@ -20,11 +22,33 @@ export default function SearchInput(props) {
     if (search.length > 1 && radioSelect === 'f') {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
-    const request = await props.fetchFood(radioSelect, search);
-    console.log(request);
+
+  //useEffect(() => {
+    //const fetchFood = async (link) => {
+      //const { meals } = await fetch(link).then((response) => response.json());
+      //setRecipesApp(meals);
+    //};
+    //fetchFood(linkAPI.ingredientsFoodAPI);
+    //fetchFood(linkAPI.areasFoodAPI);
+    //fetchFood(linkAPI.categoryFoodAPI);
+    // fetchFood(imageIngrendientsAPI);
+  //}, []);
+    useEffect(() => {
+      const requestAPI = async () => {
+      const { meals } = await props.fetchFood(radioSelect, search);
+        console.log(radioSelect);
+      }
+      setRecipesApp(meals);
+      console.log(recipesApp);
+    }, []); 
     const typeRecipe = request.meals || request.drinks;
     if (typeRecipe.length === 1) {
       history.push(`${pathname}/${typeRecipe[0].idMeal || typeRecipe[0].idDrink}`);
+    } else if (typeRecipe.length > 1) {
+      setRecipesApp({ 
+        ...recipesApp,
+        dataCategoryFoodAPI: typeRecipe,
+      });
     }
   }
   function renderSearchBar() {
