@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import searchIcon from '../images/searchIcon.svg';
-import fetchApiRecipes from '../services';
 
-export default function SearchInput() {
+export default function SearchInput({ fetchFood }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
     search: '',
     radioSelect: '',
   });
 
   function handleSearchBar({ target }) {
-    console.log(target.value);
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
   }
@@ -18,7 +17,7 @@ export default function SearchInput() {
     if (search.length > 1 && radioSelect === 'f') {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
-    const request = await fetchApiRecipes(radioSelect, search);
+    const request = await fetchFood(radioSelect, search);
     console.log(request);
   }
   function renderSearchBar() {
@@ -84,3 +83,7 @@ export default function SearchInput() {
     </div>
   );
 }
+
+SearchInput.propTypes = {
+  fetchFood: PropTypes.func.isRequired,
+};

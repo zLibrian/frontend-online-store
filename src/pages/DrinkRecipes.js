@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import SearchInput from '../components/SearchInput';
+import { fetchApiRecipesDrinks } from '../services';
 
 export default function DrinkRecipes() {
   return (
@@ -8,7 +9,7 @@ export default function DrinkRecipes() {
       <Header
         title="Bebidas"
       />
-      <SearchInput />
+      <SearchInput fetchFood={ fetchApiRecipesDrinks } />
     </div>
   );
 }
