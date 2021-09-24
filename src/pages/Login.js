@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
+import { ToggleButton } from 'react-bootstrap';
 import recipesContext from '../context/recipesContext';
 
 export default function Login({ history }) {
@@ -23,35 +24,42 @@ export default function Login({ history }) {
     handleButton = false;
   }
   return (
-    <div>
-      <label htmlFor="email">
-        email:
-        <input
-          onChange={ handleChange }
-          type="text"
-          name="email"
-          id="email"
-          data-testid="email-input"
-        />
-      </label>
-      <label htmlFor="password">
-        senha:
-        <input
-          onChange={ handleChange }
-          type="password"
-          name="password"
-          id="password"
-          data-testid="password-input"
-        />
-      </label>
-      <button
+    <div className="login">
+      <div className="mb-3 container">
+        <label className="login-name-input" htmlFor="email">
+          email:
+          <input
+            className="login form-control"
+            onChange={ handleChange }
+            type="text"
+            name="email"
+            id="email"
+            data-testid="email-input"
+          />
+        </label>
+      </div>
+      <div className="mb-3 container">
+        <label className="login-name-input" htmlFor="password">
+          senha:
+          <input
+            className="password form-control"
+            onChange={ handleChange }
+            type="password"
+            name="password"
+            id="password"
+            data-testid="password-input"
+          />
+        </label>
+      </div>
+      <ToggleButton
+        class="buttonLogin btn btn-primary"
         data-testid="login-submit-btn"
         onClick={ handleClick }
         disabled={ handleButton }
         type="button"
       >
         Entrar
-      </button>
+      </ToggleButton>
     </div>
   );
 }

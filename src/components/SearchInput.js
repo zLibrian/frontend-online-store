@@ -25,6 +25,11 @@ export default function SearchInput({ fetchFood }) {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
     const request = await fetchFood(radioSelect, search);
+    if (request === 'ERROR') {
+      console.log('passei aqui');
+      return global
+        .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+    }
     const typeRecipe = request.meals || request.drinks;
     if (typeRecipe.length === 1) {
       setRecipesApp({ ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false });
