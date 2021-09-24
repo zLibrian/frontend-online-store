@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RenderCardSearch from '../components/RenderCardSearch';
 import SearchInput from '../components/SearchInput';
@@ -16,6 +17,8 @@ export default function DrinkRecipes() {
       <SearchInput fetchFood={ fetchApiRecipesDrinks } />
       {recipesApp.dataCategoryFoodAPI.length > 0
       && <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Drink" />}
+      <SearchInput />
+      <Footer />
     </div>
   );
 }
