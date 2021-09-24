@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import searchIcon from '../images/searchIcon.svg';
+import recipesContext from '../context/recipesContext';
 
-export default function SearchInput(props) {
+export default function SearchInput({ fetchFood }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
     search: '',
     radioSelect: '',
+    typeRecipe: [],
   });
   const history = useHistory();
+
+  const { recipesApp, setRecipesApp } = useContext(recipesContext);
 
   function handleSearchBar({ target }) {
     const { name, value } = target;
@@ -20,13 +24,16 @@ export default function SearchInput(props) {
     if (search.length > 1 && radioSelect === 'f') {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
-    const request = await props.fetchFood(radioSelect, search);
-    console.log(request);
+    const request = await fetchFood(radioSelect, search);
     const typeRecipe = request.meals || request.drinks;
     if (typeRecipe.length === 1) {
+      setRecipesApp({ ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false });
       history.push(`${pathname}/${typeRecipe[0].idMeal || typeRecipe[0].idDrink}`);
+    } else {
+      setRecipesApp({ ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false });
     }
   }
+
   function renderSearchBar() {
     return (
       <div>

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import recipesContext from './recipesContext';
 
-const linkAPI = {
-  categoryFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
-  areasFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
-  ingredientsFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
-};
+// const linkAPI = {
+//   categoryFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
+//   areasFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+//   ingredientsFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
+// };
 
 // const function imageIngredients() {
 //   const imageIngrendientsAPI = `https://www.themealdb.com/images/ingredients/${fetchFood.strIngredient}.png`;
@@ -20,21 +20,17 @@ function Provider({ children }) {
     },
   );
   const [recipesApp, setRecipesApp] = useState({
-    dataCategoryFoodAPI: {},
-    dataAreasFoodAPI: {},
-    dataIngredientsFoodAPI: {},
+    dataCategoryFoodAPI: [],
+    loading: true,
+    // dataAreasFoodAPI: {},
+    // dataIngredientsFoodAPI: {},
   });
 
-  useEffect(() => {
-    const fetchFood = async (link) => {
-      const { meals } = await fetch(link).then((response) => response.json());
-      setRecipesApp(meals);
-    };
-    fetchFood(linkAPI.ingredientsFoodAPI);
-    fetchFood(linkAPI.areasFoodAPI);
-    fetchFood(linkAPI.categoryFoodAPI);
-    // fetchFood(imageIngrendientsAPI);
-  }, []);
+  // useEffect(() => {
+  //   async function fetchApiFood() {
+
+  //   }
+  // }, []);
 
   const obj = {
     login,
