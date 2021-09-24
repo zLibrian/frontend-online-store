@@ -10,10 +10,10 @@ export default function Login({ history }) {
   }
 
   function handleClick() {
-    const userEmail = { email: login.email };
+    const userEmail = login.email;
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
-    localStorage.setItem('user', JSON.stringify(userEmail));
+    localStorage.setItem('user', userEmail);
     history.push('/comidas');
   }
   console.log(history);
