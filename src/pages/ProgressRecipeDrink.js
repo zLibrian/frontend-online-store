@@ -56,22 +56,22 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
           numbers
             .filter((num) => Boolean(drink[ingredients[num - 1]]))
             .map((num) => (
-              <>
-                <label key={ num } htmlFor={ `${num}-ingredient-check` }>
+              <div key={ `section-${num}` }>
+                <label key={ `label-${num}` } htmlFor={ `${num}-ingredient-check` }>
                   <input
                     data-testid={ `${num}-ingredient-step` }
-                    key={ num }
+                    key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
                     id={ `${num}-ingredient-check` }
                     onClick={ checkIngredient }
                   />
-                  <span>
+                  <span key={ `text-${num}` }>
                     { `${drink[measures[num - 1]]} ${drink[ingredients[num - 1]]}` }
                   </span>
                 </label>
-                <br />
-              </>
+                <br key={ `line-break-${num}` } />
+              </div>
             ))
         }
       </div>
@@ -84,7 +84,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
 ProgressRecipeDrink.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number,
+      id: PropTypes.string,
     }),
   }).isRequired,
 };
