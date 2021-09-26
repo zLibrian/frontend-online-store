@@ -15,7 +15,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
       setDrink(fetchedDrink);
     }
     getDrink();
-  }, []);
+  }, [id]);
 
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients, measures] = [[], [], []];

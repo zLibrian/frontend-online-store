@@ -14,7 +14,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       setMeal(fetchedMeal);
     }
     getMeal();
-  }, []);
+  }, [id]);
 
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients, measures] = [[], [], []];
