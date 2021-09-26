@@ -53,23 +53,23 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       <div>
         {
           numbers
-            .filter((num) => Boolean(meal[ingredients[num]]))
+            .filter((num) => Boolean(meal[ingredients[num - 1]]))
             .map((num) => (
               <>
-              <label key={ num } htmlFor={ `${num}-ingredient-check` }>
-                <input
-                  data-testid={ `${num}-ingredient-step` }
-                  key={ num }
-                  type="checkbox"
-                  className="checkbox"
-                  id={ `${num}-ingredient-check` }
-                  onClick={ checkIngredient }
-                />
-                <span>
-                  { `${meal[measures[num - 1]]} ${meal[ingredients[num - 1]]}` }
-                </span>
-              </label>
-              <br />
+                <label key={ num } htmlFor={ `${num}-ingredient-check` }>
+                  <input
+                    data-testid={ `${num}-ingredient-step` }
+                    key={ num }
+                    type="checkbox"
+                    className="checkbox"
+                    id={ `${num}-ingredient-check` }
+                    onClick={ checkIngredient }
+                  />
+                  <span>
+                    { `${meal[measures[num - 1]]} ${meal[ingredients[num - 1]]}` }
+                  </span>
+                </label>
+                <br />
               </>
             ))
         }

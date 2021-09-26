@@ -24,8 +24,12 @@ export default function Recipes() {
           <Route exact path="/" component={ Login } />
           <Route exact path="/comidas" component={ FoodRecipes } />
           <Route exact path="/bebidas" component={ DrinkRecipes } />
-{/*           <Route exact path="/comidas/{id-da-receita}" component={ DetailRecipeFood } />
-          <Route exact path="/bebidas/{id-da-receita}" component={ DetailRecipeDrink } /> */}
+          {/* <Route exact path="/comidas/:id">
+            <DetailRecipeFood />
+          </Route>
+          <Route exact path="/bebidas/:id">
+            <DetailRecipeDrink />
+          </Route> */}
           <Route
             exact
             path="/comidas/:id/in-progress"
