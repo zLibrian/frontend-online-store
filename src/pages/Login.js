@@ -1,11 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import { ToggleButton } from 'react-bootstrap';
 import recipesContext from '../context/recipesContext';
 
 export default function Login({ history }) {
   const { login, setLogin } = useContext(recipesContext);
-  /*  const { } */
   function handleChange(event) {
     return setLogin({ ...login, [event.target.name]: event.target.value });
   }
@@ -51,15 +49,15 @@ export default function Login({ history }) {
           />
         </label>
       </div>
-      <ToggleButton
-        class="buttonLogin btn btn-primary"
+      <button
+        className="buttonLogin btn btn-primary"
         data-testid="login-submit-btn"
         onClick={ handleClick }
         disabled={ handleButton }
         type="button"
       >
         Entrar
-      </ToggleButton>
+      </button>
     </div>
   );
 }
