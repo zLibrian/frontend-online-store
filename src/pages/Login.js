@@ -10,13 +10,13 @@ export default function Login({ history }) {
   }
 
   function handleClick() {
-    const userEmail = login.email;
+    const userEmail = { email: login.email };
     localStorage.setItem('mealsToken', '1');
     localStorage.setItem('cocktailsToken', '1');
-    localStorage.setItem('user', userEmail);
+    localStorage.setItem('user', JSON.stringify(userEmail));
     history.push('/comidas');
   }
-  console.log(history);
+  // console.log(history);
   const number = 6;
   let handleButton = true;
   if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/
