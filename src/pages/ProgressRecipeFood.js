@@ -23,9 +23,9 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
   }
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
+
   function checkIngredient({ target }) {
     target.checked = true;
-    target.disabled = true;
     target.nextSibling.className = 'checkedIngredient';
   }
 
@@ -56,9 +56,12 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
             .filter((num) => Boolean(meal[ingredients[num - 1]]))
             .map((num) => (
               <div key={ `section-${num}` }>
-                <label key={ `label-${num}` } htmlFor={ `${num}-ingredient-check` }>
+                <label
+                  key={ `label-${num}` }
+                  htmlFor={ `${num}-ingredient-check` }
+                  data-testid={ `${num}-ingredient-step` }
+                >
                   <input
-                    data-testid={ `${num}-ingredient-step` }
                     key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"

@@ -17,16 +17,16 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
     getDrink();
   }, [id]);
 
-  const MAX_INGREDIENTS = 20;
+  const MAX_INGREDIENTS = 15;
   const [numbers, ingredients, measures] = [[], [], []];
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
+
   function checkIngredient({ target }) {
     target.checked = true;
-    target.disabled = true;
     target.nextSibling.className = 'checkedIngredient';
   }
 
@@ -57,9 +57,12 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
             .filter((num) => Boolean(drink[ingredients[num - 1]]))
             .map((num) => (
               <div key={ `section-${num}` }>
-                <label key={ `label-${num}` } htmlFor={ `${num}-ingredient-check` }>
+                <label
+                  key={ `label-${num}` }
+                  htmlFor={ `${num}-ingredient-check` }
+                  data-testid={ `${num}-ingredient-step` }
+                >
                   <input
-                    data-testid={ `${num}-ingredient-step` }
                     key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
