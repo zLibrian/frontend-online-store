@@ -13,10 +13,13 @@ export default function FoodRecipes() {
       <Header
         title="Comidas"
       />
-      <SearchInput fetchFood={ fetchApiRecipesFood } />
+      <SearchInput
+        fetchFood={ fetchApiRecipesFood }
+        typeLowCase="meals"
+        typeUpperCase="Meal"
+      />
       {recipesApp.dataCategoryFoodAPI.length > 0
       && <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Meal" />}
-      <SearchInput />
       <Footer />
     </div>
   );

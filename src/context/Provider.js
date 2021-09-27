@@ -21,6 +21,12 @@ function Provider({ children }) {
   );
   const [recipesApp, setRecipesApp] = useState({
     dataCategoryFoodAPI: [],
+    filtrar: false,
+    filter: {
+      search: '',
+      radioSelect: '',
+      typeRecipe: [],
+    },
     loading: true,
     // dataAreasFoodAPI: {},
     // dataIngredientsFoodAPI: {},

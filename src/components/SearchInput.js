@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import searchIcon from '../images/searchIcon.svg';
 import recipesContext from '../context/recipesContext';
 
-export default function SearchInput({ fetchFood }) {
+export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
     search: '',
     radioSelect: '',
@@ -18,25 +18,32 @@ export default function SearchInput({ fetchFood }) {
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
   }
-  async function handleClick() {
+  function requestApi() {
     const { pathname } = history.location;
+    const { radioSelect, search } = headerFilterBar;
+    fetchFood(radioSelect, search)
+      .then((request) => {
+        const typeRecipe = request[typeLowCase];
+        if (typeRecipe.length === 1) {
+          setRecipesApp({
+            ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false,
+          });
+          history.push(`${pathname}/${typeRecipe[0][`id${typeUpperCase}`]}`);
+        } else {
+          setRecipesApp({
+            ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false,
+          });
+        }
+      })
+      .catch(() => global
+        .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.'));
+  }
+  function handleClick() {
     const { search, radioSelect } = headerFilterBar;
     if (search.length > 1 && radioSelect === 'f') {
       return global.alert('Sua busca deve conter somente 1 (um) caracter');
     }
-    const request = await fetchFood(radioSelect, search);
-    if (request === 'ERROR') {
-      console.log('passei aqui');
-      return global
-        .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
-    }
-    const typeRecipe = request.meals || request.drinks;
-    if (typeRecipe.length === 1) {
-      setRecipesApp({ ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false });
-      history.push(`${pathname}/${typeRecipe[0].idMeal || typeRecipe[0].idDrink}`);
-    } else {
-      setRecipesApp({ ...recipesApp, dataCategoryFoodAPI: typeRecipe, loading: false });
-    }
+    requestApi();
   }
 
   function renderSearchBar() {
@@ -105,4 +112,6 @@ export default function SearchInput({ fetchFood }) {
 
 SearchInput.propTypes = {
   fetchFood: PropTypes.func.isRequired,
+  typeLowCase: PropTypes.string.isRequired,
+  typeUpperCase: PropTypes.string.isRequired,
 };
