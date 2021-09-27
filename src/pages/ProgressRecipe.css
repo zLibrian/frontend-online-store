@@ -1,0 +1,9 @@
+.checkbox {
+  margin: -2px 2px;
+}
+
+.checkedIngredient {
+  background-color: white;
+  color: black;
+  text-decoration: line-through;
+}
