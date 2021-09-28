@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RenderCardSearch from '../components/RenderCardSearch';
@@ -10,8 +10,9 @@ import RenderCards from '../components/RenderCards';
 import ButtonsOfCategory from '../components/ButtonsOfCategorys';
 import '../css/foodRecipes.css';
 
+
 export default function FoodRecipes() {
-  const { recipesApp } = useContext(recipesContext);
+  const { recipesApp } = useRecipesContext();
   return (
     <>
       <div className="headerFood">

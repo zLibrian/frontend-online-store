@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+
 import searchIcon from '../images/searchIcon.svg';
 import recipesContext from '../context/recipesContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,16 +14,19 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   });
   const history = useHistory();
 
-  const { recipesApp, setRecipesApp } = useContext(recipesContext);
+  // Verifica o caminho atual da pagina para fazer a requisicao de acordo com o tipo da pagina;
+  const { pathname } = useLocation();
+  const currentePageType = pathname.includes('comidas') ? 'foods' : 'drinks';
+
+  const { recipesApp, setRecipesApp } = useRecipesContext();
 
   function handleSearchBar({ target }) {
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
   }
   function requestApi() {
-    const { pathname } = history.location;
     const { radioSelect, search } = headerFilterBar;
-    fetchFood(radioSelect, search)
+    fetchFood(radioSelect, search, currentePageType)
       .then((request) => {
         const typeRecipe = request[typeLowCase];
         if (typeRecipe.length === 1) {
