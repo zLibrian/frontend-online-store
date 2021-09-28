@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import searchIcon from '../images/searchIcon.svg';
 import recipesContext from '../context/recipesContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
@@ -90,6 +91,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           />
         </label>
         <button
+          className="btn"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }
@@ -102,7 +104,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   const [toggleInput, setToggleInput] = useState(false);
   return (
     <div>
-      <button type="button" onClick={ () => setToggleInput(!toggleInput) }>
+      <button type="button" onClick={ () => setToggleInput(!toggleInput) } className="btn btn-warning">
         <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
       </button>
       { toggleInput && renderSearchBar()}

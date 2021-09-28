@@ -15,7 +15,9 @@ export default function RenderCards({ func, type, typeCards }) {
         });
     }
     requestApi();
-  }, []);
+    return function cleanUp() {
+    };
+  }, [cards, func]);
 
   const { filterCategory } = useContext(recipesContext);
 

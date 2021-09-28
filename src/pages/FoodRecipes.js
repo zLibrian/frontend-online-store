@@ -8,19 +8,22 @@ import { fetchApiCategoryFood, fetchApiListFood,
   fetchApiRecipesFood, fetchApiRecipesFoodMain } from '../services';
 import RenderCards from '../components/RenderCards';
 import ButtonsOfCategory from '../components/ButtonsOfCategorys';
+import '../css/foodRecipes.css';
 
 export default function FoodRecipes() {
   const { recipesApp } = useContext(recipesContext);
   return (
-    <div>
-      <Header
-        title="Comidas"
-      />
-      <SearchInput
-        fetchFood={ fetchApiRecipesFood }
-        typeLowCase="meals"
-        typeUpperCase="Meal"
-      />
+    <>
+      <div className="headerFood">
+        <Header
+          title="Comidas"
+        />
+        <SearchInput
+          fetchFood={ fetchApiRecipesFood }
+          typeLowCase="meals"
+          typeUpperCase="Meal"
+        />
+      </div>
       {recipesApp.dataCategoryFoodAPI.length > 0
       && <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Meal" />}
       <ButtonsOfCategory
@@ -30,6 +33,6 @@ export default function FoodRecipes() {
       />
       <RenderCards func={ fetchApiRecipesFoodMain } type="Meal" typeCards="meals" />
       <Footer />
-    </div>
+    </>
   );
 }

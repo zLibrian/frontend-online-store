@@ -17,7 +17,9 @@ export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
         });
     }
     requestApi();
-  }, []);
+    return function cleanUp() {
+    };
+  }, [categorys, func]);
   const MAX_CARDS = 5;
 
   async function handleClick({ target }) {
