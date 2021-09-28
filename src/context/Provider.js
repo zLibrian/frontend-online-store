@@ -34,6 +34,8 @@ function Provider({ children }) {
   );
   const [recipesApp, setRecipesApp] = useState({
     dataCategoryFoodAPI: [],
+    foods: [],
+    drinks: [],
     filtrar: false,
     filter: {
       search: '',
@@ -47,18 +49,17 @@ function Provider({ children }) {
 
   // Armazena os dados de comida e bebida recebidos da API;
   const [data, setData] = useState({
-    food: [],
+    foods: [],
     drinks: [],
   });
 
-  const [locationData, setLocationData] = useState([]);
-
   // Seta o estado inicial "data";
   const setInitialData = useCallback(async () => {
-    const { meals } = await getDefaultData('food');
+    setRecipesApp((prevState) => ({ ...prevState, loading: true }));
+    const { meals } = await getDefaultData('foods');
     const { drinks } = await getDefaultData('drinks');
-    setData((prevData) => ({ ...prevData, food: meals, drinks }));
-    setLocationData(meals);
+    setData((prevData) => ({ ...prevData, foods: meals, drinks }));
+    setRecipesApp((prevState) => ({ ...prevState, loading: false }));
   }, []);
   useEffect(() => { setInitialData(); }, [setInitialData]);
   // useEffect(() => {
@@ -69,8 +70,9 @@ function Provider({ children }) {
 
   const obj = {
     login,
-    setLogin,
+    data,
     recipesApp,
+    setLogin,
     setRecipesApp,
   };
 

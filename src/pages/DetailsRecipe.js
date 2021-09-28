@@ -8,16 +8,18 @@ import { useRecipesContext } from '../context/Provider';
 
 import { getDetails } from '../services';
 import ListDetails from './ListDetails';
-import RecipesRecommendation from './RecipesRecommendation';
+import RecipesRecommendation from '../components/RecipesRecommendation';
+import CopyButton from '../components/CopyButton';
+import FavoriteButton from '../components/FavoriteButton';
 
 export default function DetailsRecipe() {
   const [recipeDetails, setRecipeDetails] = useState({});
 
   const { id } = useParams();
   const { pathname } = useLocation();
-  const type = pathname.includes('comidas') ? 'foods' : 'drinks';
+  const type = pathname.includes('/comidas/') ? 'foods' : 'drinks';
 
-  const { setRecipesApp } = useRecipesContext();
+  const { setRecipesApp, data } = useRecipesContext();
 
   // Executa a função "getItem" quando o componente é montado;
   useEffect(() => {
@@ -27,8 +29,8 @@ export default function DetailsRecipe() {
       const [details] = item.meals || item.drinks;
 
       // Salva os detalhes recebidos pela API no estado;
-      setRecipeDetails(details);
       setRecipesApp((prevState) => ({ ...prevState, loading: false }));
+      setRecipeDetails(details);
     };
     getItem(type, id);
   }, [id, setRecipeDetails, type, setRecipesApp]);
@@ -45,6 +47,8 @@ export default function DetailsRecipe() {
     .filter((key) => key.includes('strMeasure') && recipeDetails[key])
     .map((key) => recipeDetails[key]);
 
+  if (data[type].length <= 0) return <p>Loading...</p>;
+
   return (
     <>
       <img
@@ -58,6 +62,10 @@ export default function DetailsRecipe() {
           <h1 data-testid="recipe-title">
             { recipeDetails.strDrink || recipeDetails.strMeal }
           </h1>
+        </div>
+        <div>
+          <CopyButton pathname={ pathname } />
+          <FavoriteButton />
         </div>
         <hr />
         <h2>Ingredients</h2>
@@ -92,6 +100,9 @@ export default function DetailsRecipe() {
             data-testid="video"
           />
         ) }
+        <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
+          Iniciar Receita
+        </button>
         <hr />
         <RecipesRecommendation type={ type } />
       </div>
