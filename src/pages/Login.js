@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
-import recipesContext from '../context/recipesContext';
+import React from 'react';
+import { useRecipesContext } from '../context/Provider';
 
 export default function Login({ history }) {
-  const { login, setLogin } = useContext(recipesContext);
+  const { login, setLogin } = useRecipesContext();
   function handleChange(event) {
     return setLogin({ ...login, [event.target.name]: event.target.value });
   }
