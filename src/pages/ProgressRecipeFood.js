@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
-
 // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
-
 export default function ProgressRecipeFood({ match: { params: { id } } }) {
   const [meal, setMeal] = useState({});
   useEffect(() => {
@@ -15,7 +13,6 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     }
     getMeal();
   }, [id]);
-
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients, measures] = [[], [], []];
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
@@ -82,7 +79,6 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     </div>
   );
 }
-
 ProgressRecipeFood.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
