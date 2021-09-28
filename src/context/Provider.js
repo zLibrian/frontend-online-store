@@ -1,6 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import recipesContext from './recipesContext';
+import React, { createContext, useContext, useState } from 'react';
+
+// Cria a context e exporta o uso dela atraves do useContext();
+// Para utilizar basta importar 'useRecipesContext' e desestruturar da forma tradicional;
+// Ex: import { useRecipesContext } from '../context/Provider';
+// const { recipesApp, setRecipesApp } = useRecipesContext();
+const RecipesContext = createContext();
+export const useRecipesContext = () => useContext(RecipesContext);
 
 function Provider({ children }) {
   const [login, setLogin] = useState(
@@ -35,9 +41,9 @@ function Provider({ children }) {
   };
 
   return (
-    <recipesContext.Provider value={ obj }>
+    <RecipesContext.Provider value={ obj }>
       {children}
-    </recipesContext.Provider>
+    </RecipesContext.Provider>
   );
 }
 

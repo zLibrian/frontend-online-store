@@ -9,8 +9,9 @@ import recipesContext from '../context/recipesContext';
 import { fetchApiRecipesDrinks,
   fetchApiRecipesDrinkMain, fetchApiListDrink, fetchApiCategoryDrink } from '../services';
 
+
 export default function DrinkRecipes() {
-  const { recipesApp } = useContext(recipesContext);
+  const { recipesApp } = useRecipesContext();
 
   return (
     <div>
@@ -18,7 +19,7 @@ export default function DrinkRecipes() {
         title="Bebidas"
       />
       <SearchInput
-        fetchFood={ fetchApiRecipesDrinks }
+        fetchFood={ fetchApiRecipes }
         typeLowCase="drinks"
         typeUpperCase="Drink"
       />

@@ -15,6 +15,7 @@ import DoneRecipe from './DoneRecipe';
 import FavoriteRecipe from './FavoriteRecipe';
 import ProgressRecipeFood from './ProgressRecipeFood';
 import ProgressRecipeDrink from './ProgressRecipeDrink';
+import DetailsRecipe from './DetailsRecipe';
 
 export default function Recipes() {
   return (
@@ -24,12 +25,12 @@ export default function Recipes() {
           <Route exact path="/" component={ Login } />
           <Route exact path="/comidas" component={ FoodRecipes } />
           <Route exact path="/bebidas" component={ DrinkRecipes } />
-          {/* <Route exact path="/comidas/:id">
-            <DetailRecipeFood />
+          <Route exact path="/comidas/:id">
+            <DetailsRecipe />
           </Route>
           <Route exact path="/bebidas/:id">
-            <DetailRecipeDrink />
-          </Route> */}
+            <DetailsRecipe />
+          </Route>
           <Route
             exact
             path="/comidas/:id/in-progress"

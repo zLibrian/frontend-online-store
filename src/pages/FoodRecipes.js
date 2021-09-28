@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RenderCardSearch from '../components/RenderCardSearch';
@@ -9,15 +9,16 @@ import { fetchApiCategoryFood, fetchApiListFood,
 import RenderCards from '../components/RenderCards';
 import ButtonsOfCategory from '../components/ButtonsOfCategorys';
 
+
 export default function FoodRecipes() {
-  const { recipesApp } = useContext(recipesContext);
+  const { recipesApp } = useRecipesContext();
   return (
     <div>
       <Header
         title="Comidas"
       />
       <SearchInput
-        fetchFood={ fetchApiRecipesFood }
+        fetchFood={ fetchApiRecipes }
         typeLowCase="meals"
         typeUpperCase="Meal"
       />
