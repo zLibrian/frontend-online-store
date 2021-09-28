@@ -1,27 +1,31 @@
-export async function fetchApiRecipesFood(filterSelect, text) {
-  let url = 'https://www.themealdb.com/api/json/v1/1/search.php?';
-  if (filterSelect === 'i') url = 'https://www.themealdb.com/api/json/v1/1/filter.php?';
+// Objeto que possui as URL padrao de cada tipo de API;
+const endPoints = {
+  foods: 'https://www.themealdb.com/api/json/v1/1/',
+  drinks: 'https://www.thecocktaildb.com/api/json/v1/1/',
+};
 
-  const fetchUrl = await fetch(`${url}${filterSelect}=${text}`);
-  let response;
+// Funcao que auxilia na requisicao de uma API;
+export async function getResponse(URL) {
   try {
-    response = await fetchUrl.json();
-  } catch (e) {
-    response = 'ERROR';
+    const response = await fetch(URL);
+    return response.json();
+  } catch (error) {
+    return 'Error';
   }
-  return response;
 }
 
-export async function fetchApiRecipesDrinks(filterSelect, text) {
-  let url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?';
-  if (filterSelect === 'i') url = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?';
+// Funcao que realizará uma requisicao para a API com os parametros selecionados e retornará o resultado ou um erro;
+export async function fetchApiRecipes(filterSelect, text, type) {
+  let url = `${endPoints[type]}search.php?`;
+  if (filterSelect === 'i') url = `${endPoints[type]}filter.php?`;
 
-  const fetchUrl = await fetch(`${url}${filterSelect}=${text}`);
-  let response;
-  try {
-    response = await fetchUrl.json();
-  } catch (e) {
-    response = 'ERROR';
-  }
-  return response;
+  const fetchUrl = `${url}${filterSelect}=${text}`;
+  return getResponse(fetchUrl);
+}
+
+// Funcao que retorna os detalhes de uma receita de acordo com o ID passado;
+export async function getDetails(type, id) {
+  const URL = endPoints[type];
+
+  return getResponse(`${URL}lookup.php?i=${id}`);
 }
