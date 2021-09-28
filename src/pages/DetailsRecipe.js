@@ -14,7 +14,6 @@ import FavoriteButton from '../components/FavoriteButton';
 
 export default function DetailsRecipe() {
   const [recipeDetails, setRecipeDetails] = useState({});
-
   const { id } = useParams();
   const { pathname } = useLocation();
   const type = pathname.includes('/comidas/') ? 'foods' : 'drinks';
