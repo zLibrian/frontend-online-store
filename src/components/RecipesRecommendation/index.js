@@ -8,7 +8,7 @@ import './index.css';
 import { useRecipesContext } from '../../context/Provider';
 
 export default function RecipesRecommendation({ type }) {
-  // objeto responsável por definir quando o carousel deve comecar a se comportar de maneira diferente,
+  // objeto responsável por definir quando o carousel deve comecar a se comportar de maneira diferente
   // e a quantiade de itens que o carousel deve mostrar por vez;
   const responsive = {
     superLargeDesktop: {
