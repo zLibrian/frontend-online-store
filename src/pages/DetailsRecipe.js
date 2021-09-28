@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
+import ReactPlayer from 'react-player';
+
+import './DetailsRecipe.css';
 
 import { useRecipesContext } from '../context/Provider';
 
 import { getDetails } from '../services';
+import ListDetails from './ListDetails';
+import RecipesRecommendation from './RecipesRecommendation';
 
 export default function DetailsRecipe() {
   const [recipeDetails, setRecipeDetails] = useState({});
@@ -12,7 +17,7 @@ export default function DetailsRecipe() {
   const { pathname } = useLocation();
   const type = pathname.includes('comidas') ? 'foods' : 'drinks';
 
-  const { recipesApp, setRecipesApp } = useRecipesContext();
+  const { setRecipesApp } = useRecipesContext();
 
   // Executa a função "getItem" quando o componente é montado;
   useEffect(() => {
@@ -28,7 +33,68 @@ export default function DetailsRecipe() {
     getItem(type, id);
   }, [id, setRecipeDetails, type, setRecipesApp]);
 
+  const itemKeys = Object.keys(recipeDetails);
+
+  // Cria um array a partir dos ingredientes disponíveis;
+  const ingredients = itemKeys
+    .filter((key) => key.includes('strIngredient') && recipeDetails[key])
+    .map((key) => recipeDetails[key]);
+
+  // Cria um array a partir das medidas disponíveis;
+  const measures = itemKeys
+    .filter((key) => key.includes('strMeasure') && recipeDetails[key])
+    .map((key) => recipeDetails[key]);
+
   return (
-    <p>{!recipesApp.loading && console.log(recipeDetails)}</p>
+    <>
+      <img
+        src={ recipeDetails.strDrinkThumb || recipeDetails.strMealThumb }
+        data-testid="recipe-photo"
+        alt={ recipeDetails.strDrink }
+        className="main-image"
+      />
+      <div className="details-container">
+        <div className="details-title-container">
+          <h1 data-testid="recipe-title">
+            { recipeDetails.strDrink || recipeDetails.strMeal }
+          </h1>
+        </div>
+        <hr />
+        <h2>Ingredients</h2>
+        <ul className="details-info-container">
+          <ListDetails
+            ingredients={ ingredients }
+            measures={ measures }
+          />
+        </ul>
+        <hr />
+        <h2>
+          { 'Category: ' }
+          <span data-testid="recipe-category">
+            { recipeDetails.strAlcoholic || recipeDetails.strCategory }
+          </span>
+        </h2>
+        <hr />
+        <h2>Instructions</h2>
+        <p
+          data-testid="instructions"
+          className="details-info-container"
+        >
+          { recipeDetails.strInstructions }
+        </p>
+        { recipeDetails.strDrink && <p>{ `Cup: ${recipeDetails.strGlass}` }</p> }
+        { type === 'foods' && (
+          <ReactPlayer
+            url={ recipeDetails.strYoutube }
+            controls
+            width="70%"
+            height="400px"
+            data-testid="video"
+          />
+        ) }
+        <hr />
+        <RecipesRecommendation type={ type } />
+      </div>
+    </>
   );
 }

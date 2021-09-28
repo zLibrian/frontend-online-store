@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { getDefaultData } from '../services';
 
 // Cria a context e exporta o uso dela atraves do useContext();
 // Para utilizar basta importar 'useRecipesContext' e desestruturar da forma tradicional;
@@ -38,6 +45,22 @@ function Provider({ children }) {
     // dataIngredientsFoodAPI: {},
   });
 
+  // Armazena os dados de comida e bebida recebidos da API;
+  const [data, setData] = useState({
+    food: [],
+    drinks: [],
+  });
+
+  const [locationData, setLocationData] = useState([]);
+
+  // Seta o estado inicial "data";
+  const setInitialData = useCallback(async () => {
+    const { meals } = await getDefaultData('food');
+    const { drinks } = await getDefaultData('drinks');
+    setData((prevData) => ({ ...prevData, food: meals, drinks }));
+    setLocationData(meals);
+  }, []);
+  useEffect(() => { setInitialData(); }, [setInitialData]);
   // useEffect(() => {
   //   async function fetchApiFood() {
 
