@@ -4,7 +4,10 @@ import Header from '../components/Header';
 import RenderCardSearch from '../components/RenderCardSearch';
 import SearchInput from '../components/SearchInput';
 import recipesContext from '../context/recipesContext';
-import { fetchApiRecipesFood } from '../services';
+import { fetchApiCategoryFood, fetchApiListFood,
+  fetchApiRecipesFood, fetchApiRecipesFoodMain } from '../services';
+import RenderCards from '../components/RenderCards';
+import ButtonsOfCategory from '../components/ButtonsOfCategorys';
 
 export default function FoodRecipes() {
   const { recipesApp } = useContext(recipesContext);
@@ -20,6 +23,12 @@ export default function FoodRecipes() {
       />
       {recipesApp.dataCategoryFoodAPI.length > 0
       && <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Meal" />}
+      <ButtonsOfCategory
+        typeCategory="meals"
+        func={ fetchApiListFood }
+        funcFilter={ fetchApiCategoryFood }
+      />
+      <RenderCards func={ fetchApiRecipesFoodMain } type="Meal" typeCards="meals" />
       <Footer />
     </div>
   );
