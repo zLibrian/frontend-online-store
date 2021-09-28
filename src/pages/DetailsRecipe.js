@@ -22,6 +22,7 @@ export default function DetailsRecipe() {
   const { setRecipesApp, data } = useRecipesContext();
 
   // Executa a função "getItem" quando o componente é montado;
+
   useEffect(() => {
     const getItem = async (itemType, itemID) => {
       setRecipesApp((prevState) => ({ ...prevState, loading: true }));
