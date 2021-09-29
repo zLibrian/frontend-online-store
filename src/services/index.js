@@ -14,6 +14,12 @@ export async function getResponse(URL) {
   }
 }
 
+// Requisição padrão;
+export const getDefaultData = (type) => {
+  const apiURL = `${endPoints[type]}search.php?s=`;
+  return getResponse(apiURL);
+};
+
 // Funcao que realizará uma requisicao para a API com os parametros selecionados e retornará o resultado ou um erro;
 export async function fetchApiRecipes(filterSelect, text, type) {
   let url = `${endPoints[type]}search.php?`;
