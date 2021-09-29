@@ -29,6 +29,8 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
   return (
     <div>
       <img
+        width="360px"
+        height="170px"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"
