@@ -26,6 +26,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   }
   function requestApi() {
     const { radioSelect, search } = headerFilterBar;
+    setRecipesApp({ ...recipesApp, loading: true });
     fetchFood(radioSelect, search, currentePageType)
       .then((request) => {
         const typeRecipe = request[typeLowCase];
