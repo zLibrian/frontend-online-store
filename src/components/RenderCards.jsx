@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import recipesContext from '../context/recipesContext';
+import { useRecipesContext } from '../context/Provider';
 
 export default function RenderCards({ func, type, typeCards }) {
   const [cards, setCards] = useState({ cards: [], loading: true });
@@ -17,9 +17,9 @@ export default function RenderCards({ func, type, typeCards }) {
     requestApi();
     return function cleanUp() {
     };
-  }, [cards, func]);
+  }, []);
 
-  const { filterCategory } = useContext(recipesContext);
+  const { filterCategory } = useRecipesContext();
 
   const history = useHistory();
   function renderCardsByCategories(card, index) {

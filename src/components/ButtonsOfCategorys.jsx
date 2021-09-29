@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import recipesContext from '../context/recipesContext';
+import { useRecipesContext } from '../context/Provider';
 
 export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
   const [categorys, setCategorys] = useState({
@@ -8,7 +8,7 @@ export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
     loading: true,
     categorySelected: '',
   });
-  const { filterCategory, setFilterCategory } = useContext(recipesContext);
+  const { filterCategory, setFilterCategory } = useRecipesContext();
   useEffect(() => {
     function requestApi() {
       func()
@@ -19,7 +19,7 @@ export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
     requestApi();
     return function cleanUp() {
     };
-  }, [categorys, func]);
+  }, []);
   const MAX_CARDS = 5;
 
   async function handleClick({ target }) {

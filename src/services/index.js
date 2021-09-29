@@ -94,7 +94,6 @@ export async function fetchApiCategoryFood(categoryOfFilter) {
   return request;
 }
 export async function fetchApiCategoryDrink(categoryOfFilter) {
-  console.log(categoryOfFilter);
   const url = categoryOfFilter === 'All'
     ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
     : `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryOfFilter}`;

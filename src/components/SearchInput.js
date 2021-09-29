@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useRecipesContext } from '../context/Provider';
 
 export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
@@ -94,7 +95,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           />
         </label>
         <button
-          className="btn"
+          className="btn btn-primary"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }

@@ -3,13 +3,12 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RenderCardSearch from '../components/RenderCardSearch';
 import SearchInput from '../components/SearchInput';
-import recipesContext from '../context/recipesContext';
 import { fetchApiCategoryFood, fetchApiListFood,
-  fetchApiRecipesFood, fetchApiRecipesFoodMain } from '../services';
+  fetchApiRecipes, fetchApiRecipesFoodMain } from '../services';
 import RenderCards from '../components/RenderCards';
 import ButtonsOfCategory from '../components/ButtonsOfCategorys';
 import '../css/foodRecipes.css';
-
+import { useRecipesContext } from '../context/Provider';
 
 export default function FoodRecipes() {
   const { recipesApp } = useRecipesContext();
@@ -20,7 +19,7 @@ export default function FoodRecipes() {
           title="Comidas"
         />
         <SearchInput
-          fetchFood={ fetchApiRecipesFood }
+          fetchFood={ fetchApiRecipes }
           typeLowCase="meals"
           typeUpperCase="Meal"
         />
