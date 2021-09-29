@@ -5,7 +5,7 @@ import './ProgressRecipe.css';
 // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
 
 export default function ProgressRecipeFood({ match: { params: { id } } }) {
-  const [meal, setMeal] = useState({});
+  const [meal, setMeal] = useState({ saveLocal: [] });
   useEffect(() => {
     async function getMeal() {
       const dish = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -16,6 +16,8 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     getMeal();
   }, [id]);
 
+  const [check, setCheck] = useState({ checked: false });
+
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients, measures] = [[], [], []];
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
@@ -25,13 +27,28 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
 
   function checkIngredient({ target }) {
-    target.checked = true;
+    // target.checked = true;
     target.nextSibling.className = 'checkedIngredient';
+    const listRecipe = JSON.stringify(document.getElementById(id).innerHTML);
+    localStorage.setItem(id, listRecipe);
   }
+
+  function handleChange() {
+    setCheck({ checked: !check.checked });
+  }
+
+  useEffect(() => {
+    if (localStorage[id]) {
+      const element = JSON.parse(localStorage.getItem(id));
+      document.getElementById(id).innerHTML = element;
+      // return (element);
+    }
+  });
 
   return (
     <div>
       <img
+        width="150px"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"
@@ -50,7 +67,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
         Adicionar aos Favoritos
       </button>
       <p data-testid="recipe-category">{ meal.strCategory }</p>
-      <div>
+      <div id={ id }>
         {
           numbers
             .filter((num) => Boolean(meal[ingredients[num - 1]]))
@@ -67,6 +84,8 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
                     className="checkbox"
                     id={ `${num}-ingredient-check` }
                     onClick={ checkIngredient }
+                    onChange={ handleChange }
+                    checked={ check.checked }
                   />
                   <span key={ `text-${num}` }>
                     { `${meal[measures[num - 1]]} ${meal[ingredients[num - 1]]}` }
