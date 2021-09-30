@@ -43,8 +43,8 @@ function Provider({ children }) {
       typeRecipe: [],
     },
     loading: true,
+    ingredientsDrink: [],
     // dataAreasFoodAPI: {},
-    // dataIngredientsFoodAPI: {},
   });
 
   // Armazena os dados de comida e bebida recebidos da API;
@@ -52,6 +52,8 @@ function Provider({ children }) {
     foods: [],
     drinks: [],
   });
+  const [ingredientsMeal, setIngredientsMeal] = useState([]);
+  const [ingredientDrink, setIngredientsDrinks] = useState([]);
 
   // Seta o estado inicial "data";
   const setInitialData = useCallback(async () => {
@@ -74,6 +76,10 @@ function Provider({ children }) {
     recipesApp,
     setLogin,
     setRecipesApp,
+    ingredientsMeal,
+    setIngredientsMeal,
+    ingredientDrink,
+    setIngredientsDrinks,
   };
 
   return (
