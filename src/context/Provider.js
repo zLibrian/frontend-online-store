@@ -53,7 +53,7 @@ function Provider({ children }) {
     drinks: [],
   });
   const [ingredientsMeal, setIngredientsMeal] = useState([]);
-  const [ingredientDrink, setIngredientsDrink] = useState([]);
+  const [ingredientDrink, setIngredientsDrinks] = useState([]);
 
   // Seta o estado inicial "data";
   const setInitialData = useCallback(async () => {
@@ -79,7 +79,7 @@ function Provider({ children }) {
     ingredientsMeal,
     setIngredientsMeal,
     ingredientDrink,
-    setIngredientsDrink,
+    setIngredientsDrinks,
   };
 
   return (

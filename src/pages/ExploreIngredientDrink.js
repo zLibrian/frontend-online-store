@@ -6,7 +6,7 @@ import { useRecipesContext } from '../context/Provider';
 
 export default function ExploreIngredientDrink() {
   const [ingredientsDrink, setIngredientsDrink] = useState([]);
-  const { setIngredientsDrinks } = useRecipesContext;
+  const { setIngredientsDrinks } = useRecipesContext();
   const history = useHistory();
   const limits = 12;
 
@@ -22,7 +22,6 @@ export default function ExploreIngredientDrink() {
   async function getDrinkFromIngredients(param) {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${param}`);
     const data = await response.json();
-    setIngredientsDrinks([]);
     return setIngredientsDrinks(data.drinks);
   }
 
