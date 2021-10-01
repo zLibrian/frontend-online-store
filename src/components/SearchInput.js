@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRecipesContext } from '../context/Provider';
 
 export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {

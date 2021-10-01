@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import { useRecipesContext } from '../context/Provider';
 
 export default function RenderCards({ func, type, typeCards }) {

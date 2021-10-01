@@ -15,7 +15,6 @@ export default function RenderCardSearch({ cards, type }) {
       : (
         <>
           {cards.map((card, index) => {
-            console.log(card);
             if (index >= MAX_CARDS) return '';
             return (
               <Link
@@ -41,6 +40,6 @@ export default function RenderCardSearch({ cards, type }) {
 }
 
 RenderCardSearch.propTypes = {
-  cards: PropTypes.arrayOf().isRequired,
+  cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   type: PropTypes.string.isRequired,
 };
