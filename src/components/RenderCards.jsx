@@ -6,7 +6,6 @@ import { useRecipesContext } from '../context/Provider';
 
 export default function RenderCards({ type, typeCards }) {
   const [cards, setCards] = useState({ cards: [], loading: true });
-  const { recipesApp } = useRecipesContext();
 
   useEffect(() => {
     async function fetchApiRecipesFoodMain() {
@@ -47,29 +46,27 @@ export default function RenderCards({ type, typeCards }) {
     );
   }
 
-  if (recipesApp.dataCategoryFoodAPI.length === 0) {
-    if (filterCategory.categorySelected) {
-      return (
-        filterCategory.loading ? <h1>Loading</h1>
-          : (
-            <>
-              {filterCategory.categoriesFilter
-                .map((card, index) => renderCardsByCategories(card, index))}
-            </>
-          )
-      );
-    }
-
+  if (filterCategory.categorySelected) {
     return (
-      cards.loading ? <h1>Loading</h1>
+      filterCategory.loading ? <h1>Loading</h1>
         : (
           <>
-            {cards.cards[typeCards]
+            {filterCategory.categoriesFilter
               .map((card, index) => renderCardsByCategories(card, index))}
           </>
         )
     );
   }
+
+  return (
+    cards.loading ? <h1>Loading</h1>
+      : (
+        <>
+          {cards.cards[typeCards]
+            .map((card, index) => renderCardsByCategories(card, index))}
+        </>
+      )
+  );
 }
 
 RenderCards.propTypes = {
