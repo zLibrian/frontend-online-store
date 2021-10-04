@@ -17,7 +17,7 @@ export default function RenderCards({ type, typeCards }) {
       fetch(url).then((responseJson) => responseJson.json()).then((response) => {
         setCards({ ...cards, cards: response, loading: false });
       })
-        .catch(() => console.log('fudeu'));
+        .catch(() => console.log('deu ruim'));
     }
     fetchApiRecipesFoodMain();
   }, []);
