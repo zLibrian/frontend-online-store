@@ -15,16 +15,6 @@ import { getDefaultData } from '../services';
 const RecipesContext = createContext();
 export const useRecipesContext = () => useContext(RecipesContext);
 
-// const linkAPI = {
-//   categoryFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
-//   areasFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
-//   ingredientsFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
-// };
-
-// const function imageIngredients() {
-//   const imageIngrendientsAPI = `https://www.themealdb.com/images/ingredients/${fetchFood.strIngredient}.png`;
-// }
-
 function Provider({ children }) {
   const [login, setLogin] = useState(
     {
@@ -32,6 +22,10 @@ function Provider({ children }) {
       password: '',
     },
   );
+  const [filterCategory, setFilterCategory] = useState({
+    loading: true,
+    categorySelected: '',
+    categoriesFilter: [] });
   const [recipesApp, setRecipesApp] = useState({
     dataCategoryFoodAPI: [],
     foods: [],
@@ -80,6 +74,8 @@ function Provider({ children }) {
     setIngredientsMeal,
     ingredientDrink,
     setIngredientsDrinks,
+    filterCategory,
+    setFilterCategory,
   };
 
   return (

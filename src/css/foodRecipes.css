@@ -1,0 +1,10 @@
+.headerFood {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.headerFoodRecipes {
+  align-items: center;
+  display: flex;
+}

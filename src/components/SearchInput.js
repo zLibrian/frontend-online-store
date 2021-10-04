@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import searchIcon from '../images/searchIcon.svg';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { useRecipesContext } from '../context/Provider';
 
 export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
@@ -25,6 +26,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   }
   function requestApi() {
     const { radioSelect, search } = headerFilterBar;
+    setRecipesApp({ ...recipesApp, loading: true });
     fetchFood(radioSelect, search, currentePageType)
       .then((request) => {
         const typeRecipe = request[typeLowCase];
@@ -39,20 +41,22 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           });
         }
       })
-      .catch(() => global
-        .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.'));
+      .catch(() => {
+        if (search.length > 1 && radioSelect === 'f') {
+          return global.alert('Sua busca deve conter somente 1 (um) caracter');
+        }
+        global
+          .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      });
   }
   function handleClick() {
-    const { search, radioSelect } = headerFilterBar;
-    if (search.length > 1 && radioSelect === 'f') {
-      return global.alert('Sua busca deve conter somente 1 (um) caracter');
-    }
+    // const { search, radioSelect } = headerFilterBar;
     requestApi();
   }
 
   function renderSearchBar() {
     return (
-      <div>
+      <form>
         <input
           type="text"
           data-testid="search-input"
@@ -94,19 +98,24 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           />
         </label>
         <button
+          className="btn btn-primary"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }
         >
           Buscar
         </button>
-      </div>
+      </form>
     );
   }
   const [toggleInput, setToggleInput] = useState(false);
   return (
     <div>
-      <button type="button" onClick={ () => setToggleInput(!toggleInput) }>
+      <button
+        type="button"
+        onClick={ () => setToggleInput(!toggleInput) }
+        className="btn btn-warning"
+      >
         <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
       </button>
       { toggleInput && renderSearchBar()}
