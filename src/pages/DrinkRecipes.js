@@ -22,17 +22,8 @@ export default function DrinkRecipes() {
         typeLowCase="drinks"
         typeUpperCase="Drink"
       />
-      {recipesApp.dataCategoryFoodAPI.length > 0
+      {recipesApp.dataCategoryFoodAPI.length === 0
         ? (
-          <>
-            <RenderCardSearch
-              cards={ recipesApp.dataCategoryFoodAPI }
-              type="Drink"
-            />
-            <Footer />
-          </>
-        )
-        : (
           <>
             <ButtonsOfCategory
               typeCategory="drinks"
@@ -43,6 +34,15 @@ export default function DrinkRecipes() {
               func={ fetchApiRecipesDrinkMain }
               type="Drink"
               typeCards="drinks"
+            />
+            <Footer />
+          </>
+        )
+        : (
+          <>
+            <RenderCardSearch
+              cards={ recipesApp.dataCategoryFoodAPI }
+              type="Drink"
             />
             <Footer />
           </>

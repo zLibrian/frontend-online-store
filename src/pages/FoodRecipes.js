@@ -12,7 +12,6 @@ import { useRecipesContext } from '../context/Provider';
 
 export default function FoodRecipes() {
   const { recipesApp } = useRecipesContext();
-  console.log(recipesApp);
   return (
     <>
       <div className="headerFood">
@@ -25,14 +24,8 @@ export default function FoodRecipes() {
           typeUpperCase="Meal"
         />
       </div>
-      {recipesApp.dataCategoryFoodAPI.length > 0 && !recipesApp.loading
+      {recipesApp.dataCategoryFoodAPI.length === 0
         ? (
-          <>
-            <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Meal" />
-            <Footer />
-          </>
-        )
-        : (
           <>
             <ButtonsOfCategory
               typeCategory="meals"
@@ -40,6 +33,12 @@ export default function FoodRecipes() {
               funcFilter={ fetchApiCategoryFood }
             />
             <RenderCards func={ fetchApiRecipesFoodMain } type="Meal" typeCards="meals" />
+            <Footer />
+          </>
+        )
+        : (
+          <>
+            <RenderCardSearch cards={ recipesApp.dataCategoryFoodAPI } type="Meal" />
             <Footer />
           </>
         )}

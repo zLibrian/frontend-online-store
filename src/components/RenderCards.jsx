@@ -4,19 +4,23 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import { useRecipesContext } from '../context/Provider';
 
-export default function RenderCards({ func, type, typeCards }) {
+export default function RenderCards({ type, typeCards }) {
   const [cards, setCards] = useState({ cards: [], loading: true });
+  const { recipesApp } = useRecipesContext();
 
   useEffect(() => {
-    function requestApi() {
-      func()
-        .then((request) => {
-          setCards({ ...cards, cards: request, loading: false });
-        });
+    async function fetchApiRecipesFoodMain() {
+      const endPoint = {
+        meals: 'https://www.themealdb.com/api/json/v1/1/search.php?s=',
+        drinks: 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=',
+      };
+      const url = endPoint[typeCards];
+      fetch(url).then((responseJson) => responseJson.json()).then((response) => {
+        setCards({ ...cards, cards: response, loading: false });
+      })
+        .catch(() => console.log('fudeu'));
     }
-    requestApi();
-    return function cleanUp() {
-    };
+    fetchApiRecipesFoodMain();
   }, []);
 
   const { filterCategory } = useRecipesContext();
@@ -26,13 +30,9 @@ export default function RenderCards({ func, type, typeCards }) {
     const MAX_CARDS = 12;
     if (index >= MAX_CARDS) return '';
     const { pathname } = history.location;
-    console.log(pathname);
     return (
-      <Link to={ `${pathname}/${card[`id${type}`]}` }>
-        <div
-          key={ card[`id${type}`] }
-          data-testid={ `${index}-recipe-card` }
-        >
+      <Link to={ `${pathname}/${card[`id${type}`]}` } key={ card[`id${type}`] }>
+        <div data-testid={ `${index}-recipe-card` }>
           <img
             src={ card[`str${type}Thumb`] }
             alt={ card[`str${type}`] }
@@ -47,32 +47,32 @@ export default function RenderCards({ func, type, typeCards }) {
     );
   }
 
-  if (filterCategory.categorySelected) {
-    console.log(filterCategory.categoriesFilter);
+  if (recipesApp.dataCategoryFoodAPI.length === 0) {
+    if (filterCategory.categorySelected) {
+      return (
+        filterCategory.loading ? <h1>Loading</h1>
+          : (
+            <>
+              {filterCategory.categoriesFilter
+                .map((card, index) => renderCardsByCategories(card, index))}
+            </>
+          )
+      );
+    }
+
     return (
-      filterCategory.loading ? <h1>Loading</h1>
+      cards.loading ? <h1>Loading</h1>
         : (
           <>
-            {filterCategory.categoriesFilter
+            {cards.cards[typeCards]
               .map((card, index) => renderCardsByCategories(card, index))}
           </>
         )
     );
   }
-
-  return (
-    cards.loading ? <h1>Loading</h1>
-      : (
-        <>
-          {cards.cards[typeCards]
-            .map((card, index) => renderCardsByCategories(card, index))}
-        </>
-      )
-  );
 }
 
 RenderCards.propTypes = {
-  func: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   typeCards: PropTypes.string.isRequired,
 };
