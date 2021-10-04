@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 
 import './DetailsRecipe.css';
 
 import { useRecipesContext } from '../context/Provider';
 
-import { getDetails } from '../services';
+import { getDetails, getDefaultData } from '../services';
 import ListDetails from './ListDetails';
 import RecipesRecommendation from '../components/RecipesRecommendation';
 import CopyButton from '../components/CopyButton';
@@ -14,12 +14,30 @@ import FavoriteButton from '../components/FavoriteButton';
 
 export default function DetailsRecipe() {
   const [recipeDetails, setRecipeDetails] = useState({});
+  const [localData, setLocalData] = useState({
+    foods: [],
+    drinks: [],
+  });
+
+  const history = useHistory();
+
   const { id } = useParams();
   const { pathname } = useLocation();
   const type = pathname.includes('/comidas/') ? 'foods' : 'drinks';
+
+  const currentPath = pathname.includes('/comidas/') ? '/comidas/' : '/bebidas/';
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
 
-  const { setRecipesApp, data } = useRecipesContext();
+  const { setRecipesApp } = useRecipesContext();
+
+  const setInitialData = useCallback(async () => {
+    setRecipesApp((prevState) => ({ ...prevState, loading: true }));
+    const { meals } = await getDefaultData('foods');
+    const { drinks } = await getDefaultData('drinks');
+    setLocalData((prevData) => ({ ...prevData, foods: meals, drinks }));
+    setRecipesApp((prevState) => ({ ...prevState, loading: false }));
+  }, []);
+  useEffect(() => { setInitialData(); }, [setInitialData]);
 
   // Executa a função "getItem" quando o componente é montado;
 
@@ -48,7 +66,8 @@ export default function DetailsRecipe() {
     .filter((key) => key.includes('strMeasure') && recipeDetails[key])
     .map((key) => recipeDetails[key]);
 
-  if (data[type].length <= 0) return <p>Loading...</p>;
+  if (localData[type].length <= 0) return <p>Loading...</p>;
+
   return (
     <>
       <img
@@ -100,7 +119,12 @@ export default function DetailsRecipe() {
             data-testid="video"
           />
         ) }
-        <button type="button" data-testid="start-recipe-btn" className="start-recipe-btn">
+        <button
+          type="button"
+          data-testid="start-recipe-btn"
+          className="start-recipe-btn"
+          onClick={ () => history.push(`${currentPath}${id}/in-progress`) }
+        >
           Iniciar Receita
         </button>
         <hr />
