@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
@@ -16,10 +17,10 @@ export default function FavoriteButton({ cardFavorite, type }) {
     const localStorageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const object = {
       id: cardFavorite[`id${type}`],
-      type,
-      area: cardFavorite[`str${type}`],
+      type: type === 'Meal' ? 'comida' : 'bebida',
+      area: cardFavorite.strArea || '',
       category: cardFavorite.strCategory,
-      alcoholicOrNot: cardFavorite.strAlcoholic,
+      alcoholicOrNot: cardFavorite.strAlcoholic || '',
       name: cardFavorite[`str${type}`],
       image: cardFavorite[`str${type}Thumb`],
     };
@@ -40,3 +41,8 @@ export default function FavoriteButton({ cardFavorite, type }) {
     </div>
   );
 }
+
+FavoriteButton.propTypes = {
+  cardFavorite: PropTypes.objectOf(PropTypes.object).isRequired,
+  type: PropTypes.string.isRequired,
+};
