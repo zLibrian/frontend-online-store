@@ -31,7 +31,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
       ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
-  function handleShare () {
+  function handleShare() {
     global.alert('Link copiado!');
     navigator.clipboard.writeText('');
   }
