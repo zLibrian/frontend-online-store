@@ -16,30 +16,39 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   }, [id]);
 
   const MAX_INGREDIENTS = 15;
-  const [numbers, ingredients, measures] = [[], [], []];
+  const [numbers, ing, measures] = [[], [], []]; /* Três arrays vazios */
+  /* Numbers preenchido com números de 1 a 15 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
-  numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
+  /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
+  /* strMeasures de 1 a 15. */
+  numbers.forEach((num) => ing.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
 
   function checkIngredient({ target }) {
-    target.checked = true;
-    target.nextSibling.className = 'checkedIngredient';
+    target.nextSibling.className = target.checked
+      ? 'checkedIngredient' : 'uncheckedIngredient';
+  }
+
+  function handleShare() {
+    global.alert('Link copiado!');
+    navigator.clipboard.writeText('');
   }
 
   return (
-    <div>
+    <div id="current-recipe">
       <img
         width="360px"
         height="250px"
         data-testid="recipe-photo"
         src={ `${drink.strDrinkThumb}` }
-        alt="dish"
+        alt="drink"
       />
       <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
       <button
         data-testid="share-btn"
+        onClick={ handleShare }
         type="button"
       >
         Compartilhar
@@ -54,31 +63,35 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
       <div>
         {
           numbers
-            .filter((num) => Boolean(drink[ingredients[num - 1]]))
+            .filter((num) => (
+              Boolean(drink[ing[num - 1]])
+              || Boolean(drink[measures[num - 1]])
+            ))
             .map((num) => (
-              <div key={ `section-${num}` }>
+              <div key={ `section-${num - 1}` }>
                 <label
-                  key={ `label-${num}` }
-                  htmlFor={ `${num}-ingredient-check` }
-                  data-testid={ `${num}-ingredient-step` }
+                  htmlFor={ `${num - 1}-ingredient-check` }
+                  data-testid={ `${num - 1}-ingredient-step` }
                 >
                   <input
-                    key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
-                    id={ `${num}-ingredient-check` }
+                    id={ `${num - 1}-ingredient-check` }
+                    value={ num - 1 }
+                    defaultChecked
+                    onChange={ ({ target }) => !target.checked }
                     onClick={ checkIngredient }
                   />
-                  <span key={ `text-${num}` }>
-                    { `${drink[measures[num - 1]]} ${drink[ingredients[num - 1]]}` }
+                  <span>
+                    { `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}` }
                   </span>
                 </label>
-                <br key={ `line-break-${num}` } />
+                <br />
               </div>
             ))
         }
       </div>
-      <p data-testid="instructions">{ drink.strInstructions }</p>
+      <p data-testid="instructions" className="instructions">{ drink.strInstructions }</p>
       <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );
