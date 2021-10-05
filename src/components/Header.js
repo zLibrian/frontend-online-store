@@ -5,7 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 
 export default function Header({ title }) {
   return (
-    <header className="headerFoodRecipes">
+    <>
       <Link to="/perfil">
         <img
           src={ profileIcon }
@@ -17,7 +17,7 @@ export default function Header({ title }) {
       <h1 data-testid="page-title" className="h1">
         {title }
       </h1>
-    </header>
+    </>
   );
 }
 

@@ -68,20 +68,20 @@ export default function DetailsRecipe() {
   if (localData[type].length <= 0) return <p>Loading...</p>;
 
   return (
-    <>
+    <div className="card" style={ { textAlign:"center", width: '18rem' } }>
       <img
         src={ recipeDetails.strDrinkThumb || recipeDetails.strMealThumb }
         data-testid="recipe-photo"
         alt={ recipeDetails.strDrink }
-        className="main-image"
+        className="main-image card-img-top"
       />
-      <div className="details-container">
+      <div className="details-container card-body">
         <div className="details-title-container">
-          <h1 data-testid="recipe-title">
+          <h1 classeName="card-title" data-testid="recipe-title">
             { recipeDetails.strDrink || recipeDetails.strMeal }
           </h1>
         </div>
-        <div>
+        <div style={ { display: 'flex', justifyContent: 'center' } }>
           <CopyButton pathname={ pathname } />
           <FavoriteButton cardFavorite={ recipeDetails } type={ typeUpperCase } />
         </div>
@@ -104,7 +104,7 @@ export default function DetailsRecipe() {
         <h2>Instructions</h2>
         <p
           data-testid="instructions"
-          className="details-info-container"
+          className="details-info-container card-text"
         >
           { recipeDetails.strInstructions }
         </p>
@@ -118,17 +118,17 @@ export default function DetailsRecipe() {
             data-testid="video"
           />
         ) }
-        <button
-          type="button"
-          data-testid="start-recipe-btn"
-          className="start-recipe-btn"
-          onClick={ () => history.push(`${currentPath}${id}/in-progress`) }
-        >
-          Iniciar Receita
-        </button>
-        <hr />
-        <RecipesRecommendation type={ type } />
       </div>
-    </>
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        onClick={ () => history.push(`${currentPath}${id}/in-progress`) }
+      >
+        Iniciar Receita
+      </button>
+      <hr />
+      <RecipesRecommendation type={ type } />
+    </div>
   );
 }
