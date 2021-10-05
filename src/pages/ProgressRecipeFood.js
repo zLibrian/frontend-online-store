@@ -56,6 +56,10 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
+  function handleShare () {
+    global.alert('Link copiado!');
+  }
+
   return (
     <div id="current-recipe">
       <img
@@ -68,6 +72,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
       <button
         data-testid="share-btn"
+        onClick={ handleShare }
         type="button"
       >
         Compartilhar
