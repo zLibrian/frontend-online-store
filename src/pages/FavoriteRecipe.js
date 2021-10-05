@@ -8,46 +8,76 @@ export default function FavoriteRecipe() {
   const localStorageFavorite = JSON.parse(localStorage.getItem('favoriteRecipes')) || '';
   const { pathname } = useLocation();
   const [favoriteRecipe, setFavoriteRecipe] = useState([]);
+  const [filterFavorites, setFilterFavorites] = useState('');
+
   useEffect(() => {
     setFavoriteRecipe(localStorageFavorite);
   }, []);
+
+  function handleClick({ target }) {
+    setFilterFavorites(target.name);
+  }
+
   return (
     <div>
       <Header title="Receitas Favoritas" />
-      <button type="button" data-testid="filter-by-all-btn">All</button>
-      <button type="button" data-testid="filter-by-food-btn">Food</button>
-      <button type="button" data-testid="filter-by-drink-btn">Drink</button>
-      {localStorageFavorite.length > 0 && favoriteRecipe.map((recipe, index) => (
-        <div key={ recipe.id }>
-          <img
-            width="100px"
-            src={ recipe.image }
-            alt=""
-            data-testid={ `${index}-horizontal-image` }
-          />
-          <h3
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            {`${recipe.area || 'Alcoholic'} - ${recipe.category}`}
-          </h3>
-          <h2 data-testid={ `${index}-horizontal-name` }>
-            {recipe.name}
-          </h2>
+      <button
+        name=""
+        type="button"
+        data-testid="filter-by-all-btn"
+        onClick={ handleClick }
+      >
+        All
+      </button>
+      <button
+        name="comida"
+        type="button"
+        data-testid="filter-by-food-btn"
+        onClick={ handleClick }
+      >
+        Food
+      </button>
+      <button
+        name="bebida"
+        type="button"
+        data-testid="filter-by-drink-btn"
+        onClick={ handleClick }
+      >
+        Drink
+      </button>
+      {localStorageFavorite.length > 0 && favoriteRecipe
+        .filter((recipe) => recipe.type === filterFavorites || filterFavorites === '')
+        .map((recipe, index) => (
+          <div key={ recipe.id }>
+            <img
+              width="100px"
+              src={ recipe.image }
+              alt=""
+              data-testid={ `${index}-horizontal-image` }
+            />
+            <h3
+              data-testid={ `${index}-horizontal-top-text` }
+            >
+              {`${recipe.area || 'Alcoholic'} - ${recipe.category}`}
+            </h3>
+            <h2 data-testid={ `${index}-horizontal-name` }>
+              {recipe.name}
+            </h2>
 
-          <CopyButton
-            pathname={ pathname }
-            index2={ index }
-            typeUrl={ `${recipe.type}s/${recipe.id}` }
-          />
-          <FavoriteButton
-            removeItem={ setFavoriteRecipe }
-            index={ index }
-            favorite
-            cardFavorite={ recipe }
-          />
+            <CopyButton
+              pathname={ pathname }
+              index2={ index }
+              typeUrl={ `${recipe.type}s/${recipe.id}` }
+            />
+            <FavoriteButton
+              removeItem={ setFavoriteRecipe }
+              index={ index }
+              favorite
+              cardFavorite={ recipe }
+            />
 
-        </div>
-      ))}
+          </div>
+        ))}
     </div>
   );
 }
