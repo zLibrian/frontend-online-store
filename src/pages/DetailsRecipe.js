@@ -24,8 +24,10 @@ export default function DetailsRecipe() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const type = pathname.includes('/comidas/') ? 'foods' : 'drinks';
+
   const currentPath = pathname.includes('/comidas/') ? '/comidas/' : '/bebidas/';
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
+  const typeCopy = pathname.includes('/comidas') ? 'comida' : 'bebida';
 
   const { setRecipesApp } = useRecipesContext();
 
@@ -68,7 +70,7 @@ export default function DetailsRecipe() {
   if (localData[type].length <= 0) return <p>Loading...</p>;
 
   return (
-    <div className="card" style={ { textAlign:"center", width: '18rem' } }>
+    <div className="card">
       <img
         src={ recipeDetails.strDrinkThumb || recipeDetails.strMealThumb }
         data-testid="recipe-photo"
@@ -81,8 +83,15 @@ export default function DetailsRecipe() {
             { recipeDetails.strDrink || recipeDetails.strMeal }
           </h1>
         </div>
-        <div style={ { display: 'flex', justifyContent: 'center' } }>
-          <CopyButton pathname={ pathname } />
+        <div
+          style={ {
+            display: 'flex',
+            justifyContent: 'center' } }
+        >
+          <CopyButton
+            pathname={ pathname }
+            typeUrl={ `${typeCopy}s/${id}` }
+          />
           <FavoriteButton cardFavorite={ recipeDetails } type={ typeUpperCase } />
         </div>
         <hr />

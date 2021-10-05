@@ -16,6 +16,11 @@
   justify-content: center;
 }
 
+.card {
+  text-align: 'center';
+  width: '18rem';
+}
+
 .cardButton {
   border: 1px solid rgb(204, 204, 204);
 }

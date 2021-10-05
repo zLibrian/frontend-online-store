@@ -13,24 +13,58 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     }
     getMeal();
   }, [id]);
+
+  const loadRecipe = () => {
+    // if (localStorage['inProgressRecipes']) {
+    //   const setDiv = document.querySelector('#current-recipe');
+    //   const divItemStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    //   setDiv.innerHTML = divItemStorage;
+    // }
+  };
+
+  window.onload = async function onload() {
+    loadRecipe();
+  };
+
+  // useEffect(() => {
+  //   if (localStorage[id]) {
+  //     const element = JSON.parse(localStorage.getItem(id));
+  //     document.getElementById(id).innerHTML = element;
+  //     // return (element);
+  //   }
+  // });
+
   const MAX_INGREDIENTS = 20;
-  const [numbers, ingredients, measures] = [[], [], []];
+  const [numbers, ingredients,
+    measures] = [[], [], []]; /* Três arrays vazios */
+  /* Numbers preenchido com números de 1 a 20 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
+  /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
+  /* strMeasures de 1 a 20. */
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
 
+  // function saveDiv() {
+  //   const setDiv = document.querySelector('#current-recipe');
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(setDiv.innerHTML));
+  // }
+
   function checkIngredient({ target }) {
-    target.checked = true;
-    target.nextSibling.className = 'checkedIngredient';
+    target.nextSibling.className = target.checked
+      ? 'checkedIngredient' : 'uncheckedIngredient';
+  }
+
+  function handleShare() {
+    global.alert('Link copiado!');
   }
 
   return (
-    <div>
+    <div id="current-recipe">
       <img
         width="360px"
-        height="170px"
+        height="360px"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"
@@ -38,6 +72,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
       <button
         data-testid="share-btn"
+        onClick={ handleShare }
         type="button"
       >
         Compartilhar
@@ -54,29 +89,30 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
           numbers
             .filter((num) => Boolean(meal[ingredients[num - 1]]))
             .map((num) => (
-              <div key={ `section-${num}` }>
+              <div key={ `section-${num - 1}` }>
                 <label
-                  key={ `label-${num}` }
-                  htmlFor={ `${num}-ingredient-check` }
-                  data-testid={ `${num}-ingredient-step` }
+                  htmlFor={ `${num - 1}-ingredient-check` }
+                  data-testid={ `${num - 1}-ingredient-step` }
                 >
                   <input
-                    key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
-                    id={ `${num}-ingredient-check` }
+                    id={ `${num - 1}-ingredient-check` }
+                    value={ num - 1 }
+                    defaultChecked
+                    onChange={ ({ target }) => !target.checked }
                     onClick={ checkIngredient }
                   />
-                  <span key={ `text-${num}` }>
+                  <span>
                     { `${meal[measures[num - 1]]} ${meal[ingredients[num - 1]]}` }
                   </span>
                 </label>
-                <br key={ `line-break-${num}` } />
+                <br />
               </div>
             ))
         }
       </div>
-      <p data-testid="instructions">{ meal.strInstructions }</p>
+      <p data-testid="instructions" className="instructions">{ meal.strInstructions }</p>
       <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );
