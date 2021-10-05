@@ -33,9 +33,10 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   return (
     <div>
       <img
+        width="360px"
         data-testid="recipe-photo"
         src={ `${drink.strDrinkThumb}` }
-        alt="dish"
+        alt="drink"
       />
       <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
       <button
@@ -54,26 +55,27 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
       <div>
         {
           numbers
-            .filter((num) => Boolean(drink[ingredients[num - 1]]))
+            .filter((num) => (
+              Boolean(drink[ingredients[num - 1]])
+              || Boolean(drink[measures[num - 1]])
+            ))
             .map((num) => (
-              <div key={ `section-${num}` }>
+              <div key={ `section-${num - 1}` }>
                 <label
-                  key={ `label-${num}` }
-                  htmlFor={ `${num}-ingredient-check` }
-                  data-testid={ `${num}-ingredient-step` }
+                  htmlFor={ `${num - 1}-ingredient-check` }
+                  data-testid={ `${num - 1}-ingredient-step` }
                 >
                   <input
-                    key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
-                    id={ `${num}-ingredient-check` }
+                    id={ `${num - 1}-ingredient-check` }
                     onClick={ checkIngredient }
                   />
-                  <span key={ `text-${num}` }>
-                    { `${drink[measures[num - 1]]} ${drink[ingredients[num - 1]]}` }
+                  <span>
+                    { `${drink[measures[num - 1]] || ''} ${drink[ingredients[num - 1]] || ''}` }
                   </span>
                 </label>
-                <br key={ `line-break-${num}` } />
+                <br />
               </div>
             ))
         }

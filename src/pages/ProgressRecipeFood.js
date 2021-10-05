@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
-
 // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
-
 export default function ProgressRecipeFood({ match: { params: { id } } }) {
-  const [meal, setMeal] = useState({ saveLocal: [] });
+  const [meal, setMeal] = useState({});
   useEffect(() => {
     async function getMeal() {
       const dish = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -16,39 +14,61 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     getMeal();
   }, [id]);
 
-  const [check, setCheck] = useState({ checked: false });
+
+  const loadRecipe = () => {
+    // if (localStorage['inProgressRecipes']) {
+    //   const setDiv = document.querySelector('#div');
+    //   const divItemStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    //   setDiv.innerHTML = divItemStorage;
+    // }
+  }
+
+  window.onload = async function onload() {
+    loadRecipe();
+  }
+
+  // useEffect(() => {
+  //   if (localStorage[id]) {
+  //     const element = JSON.parse(localStorage.getItem(id));
+  //     document.getElementById(id).innerHTML = element;
+  //     // return (element);
+  //   }
+  // });
 
   const MAX_INGREDIENTS = 20;
-  const [numbers, ingredients, measures] = [[], [], []];
+  const [numbers, ingredients,
+    measures, checks ] = [[], [], [], []]; /* Quatro arrays vazios */
+  /* Numbers preenchido com números de 1 a 20 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
+  /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
+  /* strMeasures de 1 a 20. Checks começam como false */
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
+  numbers.forEach((num) => checks.push(false));
+
+  function saveDiv() {
+    const setDiv = document.querySelector('#div');
+    localStorage.setItem('inProgressRecipes', JSON.stringify(setDiv.innerHTML));
+  }
 
   function checkIngredient({ target }) {
+    // const checkId = target.value;
+    // checks[checkId] = true;
     // target.checked = true;
+    // checks
+    console.log(target.innerHTML);
+    console.log(target.outerHTML);
     target.nextSibling.className = 'checkedIngredient';
-    const listRecipe = JSON.stringify(document.getElementById(id).innerHTML);
-    localStorage.setItem(id, listRecipe);
+    // saveDiv();
   }
-
-  function handleChange() {
-    setCheck({ checked: !check.checked });
-  }
-
-  useEffect(() => {
-    if (localStorage[id]) {
-      const element = JSON.parse(localStorage.getItem(id));
-      document.getElementById(id).innerHTML = element;
-      // return (element);
-    }
-  });
 
   return (
-    <div>
+    <div id="div">
       <img
-        width="150px"
+        width="360px"
+        height="170px"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"
@@ -67,31 +87,30 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
         Adicionar aos Favoritos
       </button>
       <p data-testid="recipe-category">{ meal.strCategory }</p>
-      <div id={ id }>
+      <div>
         {
           numbers
             .filter((num) => Boolean(meal[ingredients[num - 1]]))
             .map((num) => (
-              <div key={ `section-${num}` }>
+              <div key={ `section-${num - 1}` }>
                 <label
-                  key={ `label-${num}` }
-                  htmlFor={ `${num}-ingredient-check` }
-                  data-testid={ `${num}-ingredient-step` }
+                  htmlFor={ `${num - 1}-ingredient-check` }
+                  data-testid={ `${num - 1}-ingredient-step` }
                 >
                   <input
-                    key={ `input-${num}` }
                     type="checkbox"
                     className="checkbox"
-                    id={ `${num}-ingredient-check` }
+                    id={ `${num - 1}-ingredient-check` }
+                    value={num - 1}
+                    defaultChecked
+                    onChange={ ({target}) => !target.checked }
                     onClick={ checkIngredient }
-                    onChange={ handleChange }
-                    checked={ check.checked }
                   />
-                  <span key={ `text-${num}` }>
+                  <span>
                     { `${meal[measures[num - 1]]} ${meal[ingredients[num - 1]]}` }
                   </span>
                 </label>
-                <br key={ `line-break-${num}` } />
+                <br />
               </div>
             ))
         }
@@ -101,7 +120,6 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     </div>
   );
 }
-
 ProgressRecipeFood.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
