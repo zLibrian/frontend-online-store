@@ -17,7 +17,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
 
   const loadRecipe = () => {
     // if (localStorage['inProgressRecipes']) {
-    //   const setDiv = document.querySelector('#div');
+    //   const setDiv = document.querySelector('#current-recipe');
     //   const divItemStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     //   setDiv.innerHTML = divItemStorage;
     // }
@@ -37,38 +37,31 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
 
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients,
-    measures, checks ] = [[], [], [], []]; /* Quatro arrays vazios */
+    measures ] = [[], [], []]; /* Três arrays vazios */
   /* Numbers preenchido com números de 1 a 20 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
   /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
-  /* strMeasures de 1 a 20. Checks começam como false */
+  /* strMeasures de 1 a 20. */
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
-  numbers.forEach((num) => checks.push(false));
 
-  function saveDiv() {
-    const setDiv = document.querySelector('#div');
-    localStorage.setItem('inProgressRecipes', JSON.stringify(setDiv.innerHTML));
-  }
+  // function saveDiv() {
+  //   const setDiv = document.querySelector('#current-recipe');
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(setDiv.innerHTML));
+  // }
 
   function checkIngredient({ target }) {
-    // const checkId = target.value;
-    // checks[checkId] = true;
-    // target.checked = true;
-    // checks
-    console.log(target.innerHTML);
-    console.log(target.outerHTML);
-    target.nextSibling.className = 'checkedIngredient';
-    // saveDiv();
+    target.nextSibling.className = target.checked
+      ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
   return (
-    <div id="div">
+    <div id="current-recipe">
       <img
         width="360px"
-        height="170px"
+        height="360px"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"
@@ -115,7 +108,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
             ))
         }
       </div>
-      <p data-testid="instructions">{ meal.strInstructions }</p>
+      <p data-testid="instructions" className="instructions">{ meal.strInstructions }</p>
       <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );

@@ -18,20 +18,23 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   }, [id]);
 
   const MAX_INGREDIENTS = 15;
-  const [numbers, ingredients, measures] = [[], [], []];
+  const [numbers, ingredients, measures] = [[], [], []]; /* Três arrays vazios */
+  /* Numbers preenchido com números de 1 a 15 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
+  /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
+  /* strMeasures de 1 a 15. */
   numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
 
   function checkIngredient({ target }) {
-    target.checked = true;
-    target.nextSibling.className = 'checkedIngredient';
+    target.nextSibling.className = target.checked
+      ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
   return (
-    <div>
+    <div id="current-recipe">
       <img
         width="360px"
         data-testid="recipe-photo"
@@ -69,6 +72,9 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
                     type="checkbox"
                     className="checkbox"
                     id={ `${num - 1}-ingredient-check` }
+                    value={num - 1}
+                    defaultChecked
+                    onChange={ ({target}) => !target.checked }
                     onClick={ checkIngredient }
                   />
                   <span>
@@ -80,7 +86,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
             ))
         }
       </div>
-      <p data-testid="instructions">{ drink.strInstructions }</p>
+      <p data-testid="instructions" className="instructions">{ drink.strInstructions }</p>
       <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );
