@@ -27,6 +27,7 @@ export default function DetailsRecipe() {
 
   const currentPath = pathname.includes('/comidas/') ? '/comidas/' : '/bebidas/';
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
+  const typeCopy = pathname.includes('/comidas') ? 'comida' : 'bebida';
 
   const { setRecipesApp } = useRecipesContext();
 
@@ -83,7 +84,10 @@ export default function DetailsRecipe() {
           </h1>
         </div>
         <div>
-          <CopyButton pathname={ pathname } />
+          <CopyButton
+            pathname={ pathname }
+            typeUrl={ `${typeCopy}s/${id}` }
+          />
           <FavoriteButton cardFavorite={ recipeDetails } type={ typeUpperCase } />
         </div>
         <hr />
