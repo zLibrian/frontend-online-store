@@ -18,14 +18,14 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   }, [id]);
 
   const MAX_INGREDIENTS = 15;
-  const [numbers, ingredients, measures] = [[], [], []]; /* Três arrays vazios */
+  const [numbers, ing, measures] = [[], [], []]; /* Três arrays vazios */
   /* Numbers preenchido com números de 1 a 15 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
   }
   /* ingredients e measures preenchidos com nomes das chaves "strIngredient" e */
   /* strMeasures de 1 a 15. */
-  numbers.forEach((num) => ingredients.push(`strIngredient${num}`));
+  numbers.forEach((num) => ing.push(`strIngredient${num}`));
   numbers.forEach((num) => measures.push(`strMeasure${num}`));
 
   function checkIngredient({ target }) {
@@ -59,7 +59,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
         {
           numbers
             .filter((num) => (
-              Boolean(drink[ingredients[num - 1]])
+              Boolean(drink[ing[num - 1]])
               || Boolean(drink[measures[num - 1]])
             ))
             .map((num) => (
@@ -72,13 +72,13 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
                     type="checkbox"
                     className="checkbox"
                     id={ `${num - 1}-ingredient-check` }
-                    value={num - 1}
+                    value={ num - 1 }
                     defaultChecked
-                    onChange={ ({target}) => !target.checked }
+                    onChange={ ({ target }) => !target.checked }
                     onClick={ checkIngredient }
                   />
                   <span>
-                    { `${drink[measures[num - 1]] || ''} ${drink[ingredients[num - 1]] || ''}` }
+                    { `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}` }
                   </span>
                 </label>
                 <br />

@@ -14,18 +14,17 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     getMeal();
   }, [id]);
 
-
   const loadRecipe = () => {
     // if (localStorage['inProgressRecipes']) {
     //   const setDiv = document.querySelector('#current-recipe');
     //   const divItemStorage = JSON.parse(localStorage.getItem('inProgressRecipes'));
     //   setDiv.innerHTML = divItemStorage;
     // }
-  }
+  };
 
   window.onload = async function onload() {
     loadRecipe();
-  }
+  };
 
   // useEffect(() => {
   //   if (localStorage[id]) {
@@ -37,7 +36,7 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
 
   const MAX_INGREDIENTS = 20;
   const [numbers, ingredients,
-    measures ] = [[], [], []]; /* Três arrays vazios */
+    measures] = [[], [], []]; /* Três arrays vazios */
   /* Numbers preenchido com números de 1 a 20 */
   for (let index = 0; index < MAX_INGREDIENTS; index += 1) {
     numbers.push(index + 1);
@@ -94,9 +93,9 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
                     type="checkbox"
                     className="checkbox"
                     id={ `${num - 1}-ingredient-check` }
-                    value={num - 1}
+                    value={ num - 1 }
                     defaultChecked
-                    onChange={ ({target}) => !target.checked }
+                    onChange={ ({ target }) => !target.checked }
                     onClick={ checkIngredient }
                   />
                   <span>
