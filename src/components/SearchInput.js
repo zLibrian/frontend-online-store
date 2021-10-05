@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useHistory } from 'react-router';
+
 import searchIcon from '../images/searchIcon.svg';
-import recipesContext from '../context/recipesContext';
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import { useRecipesContext } from '../context/Provider';
 
 export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   const [headerFilterBar, setHeaderFilterBar] = useState({
@@ -12,16 +14,20 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   });
   const history = useHistory();
 
-  const { recipesApp, setRecipesApp } = useContext(recipesContext);
+  // Verifica o caminho atual da pagina para fazer a requisicao de acordo com o tipo da pagina;
+  const { pathname } = useLocation();
+  const currentePageType = pathname.includes('comidas') ? 'foods' : 'drinks';
+
+  const { recipesApp, setRecipesApp } = useRecipesContext();
 
   function handleSearchBar({ target }) {
     const { name, value } = target;
     setHeaderFilterBar({ ...headerFilterBar, [name]: value });
   }
   function requestApi() {
-    const { pathname } = history.location;
     const { radioSelect, search } = headerFilterBar;
-    fetchFood(radioSelect, search)
+    setRecipesApp({ ...recipesApp, loading: true });
+    fetchFood(radioSelect, search, currentePageType)
       .then((request) => {
         const typeRecipe = request[typeLowCase];
         if (typeRecipe.length === 1) {
@@ -35,20 +41,22 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           });
         }
       })
-      .catch(() => global
-        .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.'));
+      .catch(() => {
+        if (search.length > 1 && radioSelect === 'f') {
+          return global.alert('Sua busca deve conter somente 1 (um) caracter');
+        }
+        global
+          .alert('Sinto muito, não encontramos nenhuma receita para esses filtros.');
+      });
   }
   function handleClick() {
-    const { search, radioSelect } = headerFilterBar;
-    if (search.length > 1 && radioSelect === 'f') {
-      return global.alert('Sua busca deve conter somente 1 (um) caracter');
-    }
+    // const { search, radioSelect } = headerFilterBar;
     requestApi();
   }
 
   function renderSearchBar() {
     return (
-      <div>
+      <form>
         <input
           type="text"
           data-testid="search-input"
@@ -90,19 +98,24 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           />
         </label>
         <button
+          className="btn btn-primary"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }
         >
           Buscar
         </button>
-      </div>
+      </form>
     );
   }
   const [toggleInput, setToggleInput] = useState(false);
   return (
     <div>
-      <button type="button" onClick={ () => setToggleInput(!toggleInput) }>
+      <button
+        type="button"
+        onClick={ () => setToggleInput(!toggleInput) }
+        className="btn btn-warning"
+      >
         <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
       </button>
       { toggleInput && renderSearchBar()}

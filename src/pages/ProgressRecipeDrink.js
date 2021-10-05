@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
-
 // www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
-
 export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   const [drink, setDrink] = useState({});
   useEffect(() => {
@@ -37,6 +35,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
     <div id="current-recipe">
       <img
         width="360px"
+        height="250px"
         data-testid="recipe-photo"
         src={ `${drink.strDrinkThumb}` }
         alt="drink"
@@ -91,7 +90,6 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
     </div>
   );
 }
-
 ProgressRecipeDrink.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({

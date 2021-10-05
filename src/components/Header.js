@@ -5,21 +5,19 @@ import profileIcon from '../images/profileIcon.svg';
 
 export default function Header({ title }) {
   return (
-    <div>
-      <header>
-        <Link to="/perfil">
-          <img
-            src={ profileIcon }
-            data-testid="profile-top-btn"
-            alt="profile"
-            type="button"
-          />
-        </Link>
-        <h1 data-testid="page-title">
-          {title }
-        </h1>
-      </header>
-    </div>
+    <header className="headerFoodRecipes">
+      <Link to="/perfil">
+        <img
+          src={ profileIcon }
+          data-testid="profile-top-btn"
+          alt="profile"
+          type="button"
+        />
+      </Link>
+      <h1 data-testid="page-title" className="h1">
+        {title }
+      </h1>
+    </header>
   );
 }
 
