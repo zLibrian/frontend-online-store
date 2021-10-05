@@ -1,16 +1,19 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import recipesContext from './recipesContext';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
+import { getDefaultData } from '../services';
 
-// const linkAPI = {
-//   categoryFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?c=list',
-//   areasFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
-//   ingredientsFoodAPI: 'https://www.themealdb.com/api/json/v1/1/list.php?i=list',
-// };
-
-// const function imageIngredients() {
-//   const imageIngrendientsAPI = `https://www.themealdb.com/images/ingredients/${fetchFood.strIngredient}.png`;
-// }
+// Cria a context e exporta o uso dela atraves do useContext();
+// Para utilizar basta importar 'useRecipesContext' e desestruturar da forma tradicional;
+// Ex: import { useRecipesContext } from '../context/Provider';
+// const { recipesApp, setRecipesApp } = useRecipesContext();
+const RecipesContext = createContext();
+export const useRecipesContext = () => useContext(RecipesContext);
 
 function Provider({ children }) {
   const [login, setLogin] = useState(
@@ -19,8 +22,14 @@ function Provider({ children }) {
       password: '',
     },
   );
+  const [filterCategory, setFilterCategory] = useState({
+    loading: true,
+    categorySelected: '',
+    categoriesFilter: [] });
   const [recipesApp, setRecipesApp] = useState({
     dataCategoryFoodAPI: [],
+    foods: [],
+    drinks: [],
     filtrar: false,
     filter: {
       search: '',
@@ -28,10 +37,27 @@ function Provider({ children }) {
       typeRecipe: [],
     },
     loading: true,
+    ingredientsDrink: [],
     // dataAreasFoodAPI: {},
-    // dataIngredientsFoodAPI: {},
   });
 
+  // Armazena os dados de comida e bebida recebidos da API;
+  const [data, setData] = useState({
+    foods: [],
+    drinks: [],
+  });
+  const [ingredientsMeal, setIngredientsMeal] = useState([]);
+  const [ingredientDrink, setIngredientsDrinks] = useState([]);
+
+  // Seta o estado inicial "data";
+  const setInitialData = useCallback(async () => {
+    setRecipesApp((prevState) => ({ ...prevState, loading: true }));
+    const { meals } = await getDefaultData('foods');
+    const { drinks } = await getDefaultData('drinks');
+    setData((prevData) => ({ ...prevData, foods: meals, drinks }));
+    setRecipesApp((prevState) => ({ ...prevState, loading: false }));
+  }, []);
+  useEffect(() => { setInitialData(); }, [setInitialData]);
   // useEffect(() => {
   //   async function fetchApiFood() {
 
@@ -40,15 +66,22 @@ function Provider({ children }) {
 
   const obj = {
     login,
-    setLogin,
+    data,
     recipesApp,
+    setLogin,
     setRecipesApp,
+    ingredientsMeal,
+    setIngredientsMeal,
+    ingredientDrink,
+    setIngredientsDrinks,
+    filterCategory,
+    setFilterCategory,
   };
 
   return (
-    <recipesContext.Provider value={ obj }>
+    <RecipesContext.Provider value={ obj }>
       {children}
-    </recipesContext.Provider>
+    </RecipesContext.Provider>
   );
 }
 

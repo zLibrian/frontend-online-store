@@ -1,10 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
 import PropTypes from 'prop-types';
-import recipesContext from '../context/recipesContext';
+
+import { useRecipesContext } from '../context/Provider';
 
 export default function RenderCardSearch({ cards, type }) {
+  const { recipesApp } = useRecipesContext();
   const MAX_CARDS = 12;
-  const { recipesApp } = useContext(recipesContext);
+  const { pathname } = useLocation();
+  const linkTo = pathname.includes('/comidas') ? '/comidas' : '/bebidas';
   return (
     recipesApp.loading ? <h1>Loading</h1>
       : (
@@ -12,7 +17,8 @@ export default function RenderCardSearch({ cards, type }) {
           {cards.map((card, index) => {
             if (index >= MAX_CARDS) return '';
             return (
-              <div
+              <Link
+                to={ `${linkTo}/${card.idMeal || card.idDrink}` }
                 key={ card[`id${type}`] }
                 data-testid={ `${index}-recipe-card` }
               >
@@ -25,7 +31,7 @@ export default function RenderCardSearch({ cards, type }) {
                 <h3 data-testid={ `${index}-card-name` }>
                   {card[`str${type}`]}
                 </h3>
-              </div>
+              </Link>
             );
           })}
         </>
@@ -34,6 +40,6 @@ export default function RenderCardSearch({ cards, type }) {
 }
 
 RenderCardSearch.propTypes = {
-  cards: PropTypes.arrayOf().isRequired,
+  cards: PropTypes.arrayOf(PropTypes.object).isRequired,
   type: PropTypes.string.isRequired,
 };
