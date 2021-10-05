@@ -33,13 +33,19 @@ export default function FavoriteRecipe() {
           <h2 data-testid={ `${index}-horizontal-name` }>
             {recipe.name}
           </h2>
-          <CopyButton pathname={ pathname } index2={ index } />
+
+          <CopyButton
+            pathname={ pathname }
+            index2={ index }
+            typeUrl={ `${recipe.type}s/${recipe.id}` }
+          />
           <FavoriteButton
             removeItem={ setFavoriteRecipe }
             index={ index }
             favorite
             cardFavorite={ recipe }
           />
+
         </div>
       ))}
     </div>
