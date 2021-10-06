@@ -29,8 +29,9 @@ export default function DetailsRecipe() {
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
   const typeCopy = pathname.includes('/comidas') ? 'comida' : 'bebida';
   const localStorageProgressRecipe = localStorage.getItem('inProgressRecipes');
-  const localStorageFavoriteRecipe = localStorage.favoriteRecipes && JSON.parse(localStorage.getItem('favoriteRecipes'))
-    .some((recipe) => recipe.id === id);
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+    && JSON.parse(localStorage.getItem('favoriteRecipes'))
+      .some((recipe) => recipe.id === id);
   const { setRecipesApp } = useRecipesContext();
 
   const setInitialData = useCallback(async () => {
