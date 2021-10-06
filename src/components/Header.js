@@ -15,7 +15,7 @@ export default function Header({ title }) {
         />
       </Link>
       <h1 data-testid="page-title" className="h1">
-        {title }
+        {title}
       </h1>
     </>
   );
