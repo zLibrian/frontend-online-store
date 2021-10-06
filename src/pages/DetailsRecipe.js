@@ -28,7 +28,7 @@ export default function DetailsRecipe() {
   const currentPath = pathname.includes('/comidas/') ? '/comidas/' : '/bebidas/';
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
   const typeCopy = pathname.includes('/comidas') ? 'comida' : 'bebida';
-
+  const localStorageProgressRecipe = localStorage.getItem('inProgressRecipes');
   const { setRecipesApp } = useRecipesContext();
 
   const setInitialData = useCallback(async () => {
@@ -134,7 +134,7 @@ export default function DetailsRecipe() {
         className="start-recipe-btn"
         onClick={ () => history.push(`${currentPath}${id}/in-progress`) }
       >
-        Iniciar Receita
+        {localStorageProgressRecipe ? 'Continuar Receita' : 'Iniciar Receita'}
       </button>
       <hr />
       <RecipesRecommendation type={ type } />
