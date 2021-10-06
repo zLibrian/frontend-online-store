@@ -21,7 +21,9 @@ export default function FavoriteRecipe() {
 
   return (
     <div>
-      <Header title="Receitas Favoritas" />
+      <header className="header">
+        <Header title="Receitas Favoritas" />
+      </header>
       <button
         name=""
         type="button"
