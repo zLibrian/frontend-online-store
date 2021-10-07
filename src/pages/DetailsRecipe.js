@@ -28,7 +28,10 @@ export default function DetailsRecipe() {
   const currentPath = pathname.includes('/comidas/') ? '/comidas/' : '/bebidas/';
   const typeUpperCase = pathname.includes('/comidas/') ? 'Meal' : 'Drink';
   const typeCopy = pathname.includes('/comidas') ? 'comida' : 'bebida';
-
+  const localStorageProgressRecipe = localStorage.getItem('inProgressRecipes');
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+    && JSON.parse(localStorage.getItem('favoriteRecipes'))
+      .some((recipe) => recipe.id === id);
   const { setRecipesApp } = useRecipesContext();
 
   const setInitialData = useCallback(async () => {
@@ -92,7 +95,11 @@ export default function DetailsRecipe() {
             pathname={ pathname }
             typeUrl={ `${typeCopy}s/${id}` }
           />
-          <FavoriteButton cardFavorite={ recipeDetails } type={ typeUpperCase } />
+          <FavoriteButton
+            cardFavorite={ recipeDetails }
+            type={ typeUpperCase }
+            favorite={ localStorageFavoriteRecipe }
+          />
         </div>
         <hr />
         <h2>Ingredients</h2>
@@ -134,7 +141,7 @@ export default function DetailsRecipe() {
         className="start-recipe-btn"
         onClick={ () => history.push(`${currentPath}${id}/in-progress`) }
       >
-        Iniciar Receita
+        {localStorageProgressRecipe ? 'Continuar Receita' : 'Iniciar Receita'}
       </button>
       <hr />
       <RecipesRecommendation type={ type } />
