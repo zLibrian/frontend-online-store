@@ -5,12 +5,13 @@ import Header from '../components/Header';
 
 export default function Perfil() {
   function getEmailLocalStorage() {
-    const email = localStorage.getItem('user');
-    console.log(email);
-    return email.replace('{"email":', 'email :')
-      .replace(email[7], ' ')
-      .replace(email[37], '')
-      .replace(email[38], '');
+    if (localStorage.user) {
+      const email = localStorage.getItem('user');
+      return email.replace('{"email":', 'email :')
+        .replace(email[7], ' ')
+        .replace(email[37], '')
+        .replace(email[38], '');
+    }
   }
 
   function handleClick() {
