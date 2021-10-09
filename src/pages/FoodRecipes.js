@@ -14,7 +14,7 @@ export default function FoodRecipes() {
   const { recipesApp } = useRecipesContext();
   return (
     <>
-      <section className="header">
+      <header className="header" /* style={ { display: 'contents' } } */>
         <Header
           title="Comidas"
         />
@@ -23,7 +23,7 @@ export default function FoodRecipes() {
           typeLowCase="meals"
           typeUpperCase="Meal"
         />
-      </section>
+      </header>
       {recipesApp.dataCategoryFoodAPI.length === 0
         ? (
           <>

@@ -14,7 +14,7 @@ export default function DrinkRecipes() {
 
   return (
     <>
-      <header className="header">
+      <header className="header" /* style={ { display: 'contents' } } */>
         <Header
           title="Bebidas"
         />
