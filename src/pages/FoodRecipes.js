@@ -14,7 +14,7 @@ export default function FoodRecipes() {
   const { recipesApp } = useRecipesContext();
   return (
     <>
-      <header className="header" /* style={ { display: 'contents' } } */>
+      <header className="header">
         <Header
           title="Comidas"
         />
