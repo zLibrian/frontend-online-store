@@ -32,17 +32,17 @@ export default function RenderCards({ type, typeCards }) {
     return (
       <Link to={ `${pathname}/${card[`id${type}`]}` } key={ card[`id${type}`] }>
         <div
-          className="cardButton card"
+          className="cardButton card meals "
           data-testid={ `${index}-recipe-card` }
         >
           <img
-            className="card-img-top HoverDiv"
+            className="card-img-top"
             src={ card[`str${type}Thumb`] }
             alt={ card[`str${type}`] }
             data-testid={ `${index}-card-img` }
             width="100px"
           />
-          <div className="card-body">
+          <div className="card-body rocksGlass">
             <h3 className="card-title" data-testid={ `${index}-card-name` }>
               {card[`str${type}`]}
             </h3>

@@ -24,7 +24,7 @@ export default function Perfil() {
       <p data-testid="profile-email">{getEmailLocalStorage()}</p>
       <Link to="/receitas-feitas">
         <button
-          className="btn btn-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="profile-done-btn"
         >
@@ -33,7 +33,7 @@ export default function Perfil() {
       </Link>
       <Link to="/receitas-favoritas">
         <button
-          className="btn btn-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="profile-favorite-btn"
         >
@@ -42,7 +42,7 @@ export default function Perfil() {
       </Link>
       <Link to="/">
         <button
-          className="btn btn-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="profile-logout-btn"
           onClick={ handleClick }

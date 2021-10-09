@@ -63,8 +63,8 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
   return (
     <div id="current-recipe">
       <img
-        width="360px"
-        height="360px"
+        width="100%"
+        height="100%"
         data-testid="recipe-photo"
         src={ `${meal.strMealThumb}` }
         alt="dish"

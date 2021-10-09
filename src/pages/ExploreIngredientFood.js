@@ -27,16 +27,16 @@ export default function ExploreIngredientFood() {
   }
 
   return (
-    <div>
-
+    <>
       <header className="header">
         <Header title="Explorar Ingredientes" />
       </header>
-      <div>
+      <div className="explorarFoodAndDrinks">
         {
           ingredientsFood.map((meal, index) => (
             (index < limits) && (
               <button
+                className="btn card"
                 name={ meal.stringredient }
                 type="button"
                 onClick={ ({ target }) => {
@@ -47,6 +47,7 @@ export default function ExploreIngredientFood() {
                 <div>
                   <div data-testid={ `${index}-ingredient-card` }>
                     <img
+                      className="card-img-top"
                       name={ meal.strIngredient }
                       src={ `https://www.themealdb.com/images/ingredients/${meal.strIngredient}-Small.png` }
                       data-testid={ `${index}-card-img` }
@@ -57,11 +58,12 @@ export default function ExploreIngredientFood() {
                 <div
                   name={ meal.strIngredient }
                 >
-                  <span
+                  <p
+                    className="rocksGlass"
                     data-testid={ `${index}-card-name` }
                   >
                     { meal.strIngredient }
-                  </span>
+                  </p>
                 </div>
               </button>
             )
@@ -69,6 +71,6 @@ export default function ExploreIngredientFood() {
         }
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

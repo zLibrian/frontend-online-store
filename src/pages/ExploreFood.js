@@ -22,7 +22,7 @@ export default function ExploreFood() {
       return (
         <Link to={ `/comidas/${idRandom}` }>
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             type="button"
             data-testid="explore-surprise"
             name="Me Surpreenda"
@@ -42,7 +42,7 @@ export default function ExploreFood() {
       </header>
       <Link to="/explorar/comidas/ingredientes">
         <button
-          className="btn btn-outline-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="explore-by-ingredient"
         >
@@ -51,7 +51,7 @@ export default function ExploreFood() {
       </Link>
       <Link to="/explorar/comidas/area">
         <button
-          className="btn btn-outline-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="explore-by-area"
         >

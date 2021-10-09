@@ -108,7 +108,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           </label>
         </div>
         <button
-          className="btn btn-primary"
+          className="btn btn-dark"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }

@@ -1,6 +1,6 @@
 .meals {
   align-items: center;
-  background: #0fa36b;
+  background: #817f7f;
   color: #464646;
   display: flex;
   flex-direction: column;
@@ -10,10 +10,22 @@
   width: 100%;
 }
 
+.img-progressRecipe {
+  height: 100%;
+  width: 100%;
+}
+
 .buttonCategory {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.explorarFoodAndDrinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 450px;
 }
 
 .card {

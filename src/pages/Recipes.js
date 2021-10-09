@@ -19,7 +19,7 @@ import DetailsRecipe from './DetailsRecipe';
 
 export default function Recipes() {
   return (
-    <div>
+    <>
       <Provider>
         <Switch>
           <Route exact path="/" component={ Login } />
@@ -64,6 +64,6 @@ export default function Recipes() {
           <Route exact path="/receitas-favoritas" component={ FavoriteRecipe } />
         </Switch>
       </Provider>
-    </div>
+    </>
   );
 }
