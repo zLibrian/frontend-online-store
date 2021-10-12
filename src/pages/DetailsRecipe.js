@@ -75,10 +75,12 @@ export default function DetailsRecipe() {
   return (
     <div className="card">
       <img
+        width="100%"
+        height="100%"
         src={ recipeDetails.strDrinkThumb || recipeDetails.strMealThumb }
         data-testid="recipe-photo"
         alt={ recipeDetails.strDrink }
-        className="main-image card-img-top"
+        className="card-img-top"
       />
       <div className="details-container card-body">
         <div className="details-title-container">

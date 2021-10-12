@@ -20,11 +20,12 @@ export default function FavoriteRecipe() {
   }
 
   return (
-    <div>
+    <>
       <header className="header">
         <Header title="Receitas Favoritas" />
       </header>
       <button
+        className="btn btn-outline-dark"
         name=""
         type="button"
         data-testid="filter-by-all-btn"
@@ -33,6 +34,7 @@ export default function FavoriteRecipe() {
         All
       </button>
       <button
+        className="btn btn-outline-dark"
         name="comida"
         type="button"
         data-testid="filter-by-food-btn"
@@ -41,6 +43,7 @@ export default function FavoriteRecipe() {
         Food
       </button>
       <button
+        className="btn btn-outline-dark"
         name="bebida"
         type="button"
         data-testid="filter-by-drink-btn"
@@ -83,6 +86,6 @@ export default function FavoriteRecipe() {
 
           </div>
         ))}
-    </div>
+    </>
   );
 }

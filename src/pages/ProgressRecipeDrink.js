@@ -37,62 +37,84 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   }
 
   return (
-    <div id="current-recipe">
-      <img
-        width="360px"
-        height="250px"
-        data-testid="recipe-photo"
-        src={ `${drink.strDrinkThumb}` }
-        alt="drink"
-      />
-      <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
-      <button
-        data-testid="share-btn"
-        onClick={ handleShare }
-        type="button"
-      >
-        Compartilhar
-      </button>
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        Adicionar aos Favoritos
-      </button>
-      <p data-testid="recipe-category">{ drink.strCategory }</p>
-      <div>
-        {
-          numbers
-            .filter((num) => (
-              Boolean(drink[ing[num - 1]])
+    <div className="card">
+      <div id="current-recipe">
+        <img
+          className="card-img-top"
+          width="100%"
+          height="100%"
+          data-testid="recipe-photo"
+          src={ `${drink.strDrinkThumb}` }
+          alt="drink"
+        />
+        <div className="card-body">
+          <h1 className="card-title" data-testid="recipe-title">{ drink.strDrink }</h1>
+          <button
+            className="btn btn-outline-dark"
+            data-testid="share-btn"
+            onClick={ handleShare }
+            type="button"
+          >
+            Compartilhar
+          </button>
+          <button
+            className="btn btn-outline-dark"
+            data-testid="favorite-btn"
+            type="button"
+          >
+            Adicionar aos Favoritos
+          </button>
+          <p data-testid="recipe-category">{ drink.strCategory }</p>
+          <div>
+            {
+              numbers
+                .filter((num) => (
+                  Boolean(drink[ing[num - 1]])
               || Boolean(drink[measures[num - 1]])
-            ))
-            .map((num) => (
-              <div key={ `section-${num - 1}` }>
-                <label
-                  htmlFor={ `${num - 1}-ingredient-check` }
-                  data-testid={ `${num - 1}-ingredient-step` }
-                >
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    id={ `${num - 1}-ingredient-check` }
-                    value={ num - 1 }
-                    defaultChecked
-                    onChange={ ({ target }) => !target.checked }
-                    onClick={ checkIngredient }
-                  />
-                  <span>
-                    { `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}` }
-                  </span>
-                </label>
-                <br />
-              </div>
-            ))
-        }
+                ))
+                .map((num) => (
+                  <div key={ `section-${num - 1}` }>
+                    <label
+                      htmlFor={ `${num - 1}-ingredient-check` }
+                      data-testid={ `${num - 1}-ingredient-step` }
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id={ `${num - 1}-ingredient-check` }
+                        value={ num - 1 }
+                        defaultChecked
+                        onChange={ ({ target }) => !target.checked }
+                        onClick={ checkIngredient }
+                      />
+                      <span>
+                        {
+                          `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}`
+                        }
+                      </span>
+                    </label>
+                    <br />
+                  </div>
+                ))
+            }
+          </div>
+          <p
+            data-testid="instructions"
+            className="instructions card-text"
+          >
+            { drink.strInstructions }
+
+          </p>
+          <button
+            className="btn btn-outline-dark"
+            type="button"
+            data-testid="finish-recipe-btn"
+          >
+            Receita Finalizada
+
+          </button>
+        </div>
       </div>
-      <p data-testid="instructions" className="instructions">{ drink.strInstructions }</p>
-      <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 .meals {
   align-items: center;
-  background: #0fa36b;
   color: #464646;
   display: flex;
   flex-direction: column;
@@ -19,10 +18,22 @@ body {
   flex-direction: column;
 }
 
+.img-progressRecipe {
+  height: 100%;
+  width: 100%;
+}
+
 .buttonCategory {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.explorarFoodAndDrinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 450px;
 }
 
 .card {
@@ -48,6 +59,20 @@ body {
   position: fixed;
   text-align: center;
   width: 100%;
+}
+
+.marginTop {
+  margin-top: 100px;
+}
+
+.form-search-button {
+  background-color: aquamarine;
+  height: -33px;
+  position: absolute;
+  right: 1px;
+  top: 183px;
+  width: 360px;
+  z-index: 2;
 }
 
 .rocksGlass {

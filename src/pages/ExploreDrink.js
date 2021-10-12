@@ -21,7 +21,7 @@ export default function ExploreDrink() {
       return (
         <Link to={ `/bebidas/${idRandom}` }>
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             type="button"
             data-testid="explore-surprise"
             name="Me Surpreenda"
@@ -41,7 +41,7 @@ export default function ExploreDrink() {
       </header>
       <Link to="/explorar/bebidas/ingredientes">
         <button
-          className="btn btn-outline-primary"
+          className="btn btn-outline-dark"
           type="button"
           data-testid="explore-by-ingredient"
         >
