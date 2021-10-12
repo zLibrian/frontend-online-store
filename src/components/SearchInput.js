@@ -125,6 +125,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
       >
         <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
       </button>
+      <div />
       { toggleInput && renderSearchBar()}
     </>
   );

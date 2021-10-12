@@ -3,6 +3,17 @@ import PropTypes from 'prop-types';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
+function objectCard(card, type) {
+  return {
+    id: card[`id${type}`],
+    type: type === 'Meal' ? 'comida' : 'bebida',
+    area: card.strArea || '',
+    category: card.strCategory,
+    alcoholicOrNot: card.strAlcoholic || '',
+    name: card[`str${type}`],
+    image: card[`str${type}Thumb`],
+  };
+}
 export default function FavoriteButton({ index, favorite,
   cardFavorite, type, removeItem }) {
   const [favorited, setFavorited] = useState(favorite);
@@ -18,22 +29,13 @@ export default function FavoriteButton({ index, favorite,
       const newLocalFavorite = localStorageFavorite
         .filter((recipe) => recipe.id !== cardFavorite.id);
       localStorage.setItem('favoriteRecipes', JSON.stringify(newLocalFavorite));
-      removeItem(newLocalFavorite);
+      if (removeItem) removeItem(newLocalFavorite);
     } else {
-      const object = {
-        id: cardFavorite[`id${type}`],
-        type: type === 'Meal' ? 'comida' : 'bebida',
-        area: cardFavorite.strArea || '',
-        category: cardFavorite.strCategory,
-        alcoholicOrNot: cardFavorite.strAlcoholic || '',
-        name: cardFavorite[`str${type}`],
-        image: cardFavorite[`str${type}Thumb`],
-      };
+      const object = objectCard(cardFavorite, type);
       const newLocalStorage = [...localStorageFavorite, object];
       localStorage.setItem('favoriteRecipes', JSON.stringify(newLocalStorage));
     }
   }
-
   function typeButton(img) {
     return (
       <img
@@ -48,11 +50,7 @@ export default function FavoriteButton({ index, favorite,
   return (
     <button
       type="button"
-      // data-testid={ index !== undefined
-      //   ? `${index}-horizontal-favorite-btn`
-      //   : 'favorite-btn' }
       onClick={ handleClick }
-      // src={ imageSource }
     >
       {typeButton(imageSource)}
     </button>
