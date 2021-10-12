@@ -10,6 +10,15 @@
   width: 100%;
 }
 
+body {
+  background-color: rgb(216, 222, 228);
+}
+
+.page-initial {
+  display: flex;
+  flex-direction: column;
+}
+
 .buttonCategory {
   display: flex;
   flex-wrap: wrap;

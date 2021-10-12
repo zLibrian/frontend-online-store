@@ -32,7 +32,7 @@ export default function RenderCards({ type, typeCards }) {
     return (
       <Link to={ `${pathname}/${card[`id${type}`]}` } key={ card[`id${type}`] }>
         <div
-          className="cardButton card"
+          className="card-of-recipe"
           data-testid={ `${index}-recipe-card` }
         >
           <img
@@ -56,10 +56,10 @@ export default function RenderCards({ type, typeCards }) {
     return (
       filterCategory.loading ? <h1>Loading</h1>
         : (
-          <>
+          <div className="container-of-cards">
             {filterCategory.categoriesFilter
               .map((card, index) => renderCardsByCategories(card, index))}
-          </>
+          </div>
         )
     );
   }
@@ -67,7 +67,7 @@ export default function RenderCards({ type, typeCards }) {
   return (
     cards.loading ? <h1>Loading</h1>
       : (
-        <div className="cardButton" style={ { textAlign: 'center' } }>
+        <div className="container-of-cards">
           {cards.cards[typeCards]
             .map((card, index) => renderCardsByCategories(card, index))}
         </div>

@@ -19,7 +19,7 @@ import DetailsRecipe from './DetailsRecipe';
 
 export default function Recipes() {
   return (
-    <div>
+    <div className="page-initial">
       <Provider>
         <Switch>
           <Route exact path="/" component={ Login } />

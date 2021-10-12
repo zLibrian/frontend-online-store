@@ -8,6 +8,7 @@ import SearchInput from '../components/SearchInput';
 import { useRecipesContext } from '../context/Provider';
 import { fetchApiRecipesDrinkMain, fetchApiRecipes,
   fetchApiListDrink, fetchApiCategoryDrink } from '../services';
+import '../css/foodRecipes.css';
 
 export default function DrinkRecipes() {
   const { recipesApp } = useRecipesContext();
