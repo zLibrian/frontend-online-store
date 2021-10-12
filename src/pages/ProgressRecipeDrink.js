@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
+import { useLocation } from 'react-router';
+import CopyButton from '../components/CopyButton';
+import FavoriteButton from '../components/FavoriteButton';
 // www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
 export default function ProgressRecipeDrink({ match: { params: { id } } }) {
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+  && JSON.parse(localStorage.getItem('favoriteRecipes'))
+    .some((recipe) => recipe.id === id);
+  const { pathname } = useLocation();
   const [drink, setDrink] = useState({});
   useEffect(() => {
     async function getDrink() {
@@ -31,11 +38,6 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
       ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
-  function handleShare() {
-    global.alert('Link copiado!');
-    navigator.clipboard.writeText('');
-  }
-
   return (
     <div className="card">
       <div id="current-recipe">
@@ -49,21 +51,12 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
         />
         <div className="card-body">
           <h1 className="card-title" data-testid="recipe-title">{ drink.strDrink }</h1>
-          <button
-            className="btn btn-outline-dark"
-            data-testid="share-btn"
-            onClick={ handleShare }
-            type="button"
-          >
-            Compartilhar
-          </button>
-          <button
-            className="btn btn-outline-dark"
-            data-testid="favorite-btn"
-            type="button"
-          >
-            Adicionar aos Favoritos
-          </button>
+          <CopyButton pathname={ pathname } typeUrl={ `bebidas/${id}` } />
+          <FavoriteButton
+            cardFavorite={ drink }
+            type="Drink"
+            favorite={ localStorageFavoriteRecipe }
+          />
           <p data-testid="recipe-category">{ drink.strCategory }</p>
           <div>
             {

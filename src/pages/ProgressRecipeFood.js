@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
+import { useLocation } from 'react-router';
+import CopyButton from '../components/CopyButton';
+import FavoriteButton from '../components/FavoriteButton';
 // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
 export default function ProgressRecipeFood({ match: { params: { id } } }) {
+  const { pathname } = useLocation();
   const [meal, setMeal] = useState({});
   useEffect(() => {
     async function getMeal() {
@@ -13,6 +17,9 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     }
     getMeal();
   }, [id]);
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+    && JSON.parse(localStorage.getItem('favoriteRecipes'))
+      .some((recipe) => recipe.id === id);
 
   const loadRecipe = () => {
     // if (localStorage['inProgressRecipes']) {
@@ -87,11 +94,6 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
       </div>
     );
   }
-
-  function handleShare() {
-    global.alert('Link copiado!');
-  }
-
   return (
     <div className="card">
       <div id="current-recipe">
@@ -105,21 +107,12 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
         />
         <div className="card-body">
           <h1 className="card-title" data-testid="recipe-title">{ meal.strMeal }</h1>
-          <button
-            className="btn btn-outline-dark"
-            data-testid="share-btn"
-            onClick={ handleShare }
-            type="button"
-          >
-            Compartilhar
-          </button>
-          <button
-            className="btn btn-outline-dark"
-            data-testid="favorite-btn"
-            type="button"
-          >
-            Adicionar aos Favoritos
-          </button>
+          <CopyButton pathname={ pathname } typeUrl={ `comidas/${id}` } />
+          <FavoriteButton
+            cardFavorite={ meal }
+            type="Meal"
+            favorite={ localStorageFavoriteRecipe }
+          />
           <p data-testid="recipe-category">{ meal.strCategory }</p>
           {renderCheckBox()}
           <p
