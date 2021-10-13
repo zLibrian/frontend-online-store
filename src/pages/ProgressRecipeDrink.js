@@ -9,8 +9,11 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   const localStorageFavoriteRecipe = localStorage.favoriteRecipes
   && JSON.parse(localStorage.getItem('favoriteRecipes'))
     .some((recipe) => recipe.id === id);
+
   const { pathname } = useLocation();
   const [drink, setDrink] = useState({});
+  const [check, setCheck] = useState(0);
+  const [allCheck, setAllCheck] = useState(true);
   useEffect(() => {
     async function getDrink() {
       const site = 'https://www.thecocktaildb.com';
@@ -36,7 +39,17 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   function checkIngredient({ target }) {
     target.nextSibling.className = target.checked
       ? 'checkedIngredient' : 'uncheckedIngredient';
+    setCheck(check + 1);
   }
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('span');
+    const validation = [];
+    elements.forEach((elementDom) => {
+      validation.push(elementDom.classList.contains('checkedIngredient'));
+    });
+    setAllCheck(validation.every((bol) => bol));
+  }, [check]);
 
   return (
     <div className="card">
@@ -80,7 +93,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
                         onChange={ ({ target }) => !target.checked }
                         onClick={ checkIngredient }
                       />
-                      <span>
+                      <span className="checkedIngredient">
                         {
                           `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}`
                         }
@@ -102,6 +115,7 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
             className="btn btn-outline-dark"
             type="button"
             data-testid="finish-recipe-btn"
+            disabled={ !allCheck }
           >
             Receita Finalizada
 
