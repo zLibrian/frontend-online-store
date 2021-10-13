@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
+import { useLocation } from 'react-router';
+import CopyButton from '../components/CopyButton';
+import FavoriteButton from '../components/FavoriteButton';
 // www.themealdb.com/api/json/v1/1/lookup.php?i=52772
 export default function ProgressRecipeFood({ match: { params: { id } } }) {
+  const { pathname } = useLocation();
   const [meal, setMeal] = useState({});
   useEffect(() => {
     async function getMeal() {
@@ -13,6 +17,9 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
     }
     getMeal();
   }, [id]);
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+    && JSON.parse(localStorage.getItem('favoriteRecipes'))
+      .some((recipe) => recipe.id === id);
 
   const loadRecipe = () => {
     // if (localStorage['inProgressRecipes']) {
@@ -50,40 +57,13 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
   //   const setDiv = document.querySelector('#current-recipe');
   //   localStorage.setItem('inProgressRecipes', JSON.stringify(setDiv.innerHTML));
   // }
-
   function checkIngredient({ target }) {
     target.nextSibling.className = target.checked
       ? 'checkedIngredient' : 'uncheckedIngredient';
   }
 
-  function handleShare() {
-    global.alert('Link copiado!');
-  }
-
-  return (
-    <div id="current-recipe">
-      <img
-        width="360px"
-        height="360px"
-        data-testid="recipe-photo"
-        src={ `${meal.strMealThumb}` }
-        alt="dish"
-      />
-      <h1 data-testid="recipe-title">{ meal.strMeal }</h1>
-      <button
-        data-testid="share-btn"
-        onClick={ handleShare }
-        type="button"
-      >
-        Compartilhar
-      </button>
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        Adicionar aos Favoritos
-      </button>
-      <p data-testid="recipe-category">{ meal.strCategory }</p>
+  function renderCheckBox() {
+    return (
       <div>
         {
           numbers
@@ -112,8 +92,46 @@ export default function ProgressRecipeFood({ match: { params: { id } } }) {
             ))
         }
       </div>
-      <p data-testid="instructions" className="instructions">{ meal.strInstructions }</p>
-      <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
+    );
+  }
+  return (
+    <div className="card">
+      <div id="current-recipe">
+        <img
+          className="card-img-top"
+          width="100%"
+          height="100%"
+          data-testid="recipe-photo"
+          src={ `${meal.strMealThumb}` }
+          alt="dish"
+        />
+        <div className="card-body">
+          <h1 className="card-title" data-testid="recipe-title">{ meal.strMeal }</h1>
+          <CopyButton pathname={ pathname } typeUrl={ `comidas/${id}` } />
+          <FavoriteButton
+            cardFavorite={ meal }
+            type="Meal"
+            favorite={ localStorageFavoriteRecipe }
+          />
+          <p data-testid="recipe-category">{ meal.strCategory }</p>
+          {renderCheckBox()}
+          <p
+            data-testid="instructions"
+            className="instructions card-text"
+          >
+            { meal.strInstructions }
+
+          </p>
+          <button
+            className="btn btn-outline-dark"
+            type="button"
+            data-testid="finish-recipe-btn"
+          >
+            Receita Finalizada
+
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

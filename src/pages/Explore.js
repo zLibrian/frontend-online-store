@@ -12,7 +12,7 @@ export default function Explore() {
       <div className="buttonCategory">
         <Link to="/explorar/comidas">
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             type="button"
             data-testid="explore-food"
           >
@@ -21,7 +21,7 @@ export default function Explore() {
         </Link>
         <Link to="/explorar/bebidas">
           <button
-            className="btn btn-outline-primary"
+            className="btn btn-outline-dark"
             type="button"
             data-testid="explore-drinks"
           >

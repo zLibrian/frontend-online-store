@@ -56,7 +56,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
 
   function renderSearchBar() {
     return (
-      <form>
+      <form className="search-form">
         <input
           className="form-control"
           type="text"
@@ -65,11 +65,10 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           value={ headerFilterBar.search }
           onChange={ handleSearchBar }
         />
-        <div className="mb-3 container">
-          <label className="form-label" htmlFor="ingredient">
+        <div>
+          <label htmlFor="ingredient">
             Ingredientes
             <input
-              className="form-check-input"
               value="i"
               name="radioSelect"
               id="ingredient"
@@ -79,11 +78,10 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
             />
           </label>
         </div>
-        <div className="mb-3 container">
+        <div>
           <label className="form-label" htmlFor="name-search">
             Nome
             <input
-              className="form-check-input"
               value="s"
               name="radioSelect"
               id="name-search"
@@ -93,11 +91,10 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
             />
           </label>
         </div>
-        <div className="mb-3 container">
-          <label className="form-label" htmlFor="first-letter">
+        <div>
+          <label htmlFor="first-letter">
             Primeira letra
             <input
-              className="form-check-input"
               value="f"
               name="radioSelect"
               id="first-letter"
@@ -108,7 +105,7 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
           </label>
         </div>
         <button
-          className="btn btn-primary"
+          className="btn btn-warning"
           type="button"
           data-testid="exec-search-btn"
           onClick={ handleClick }
@@ -120,15 +117,17 @@ export default function SearchInput({ fetchFood, typeLowCase, typeUpperCase }) {
   }
   const [toggleInput, setToggleInput] = useState(false);
   return (
-    <div>
+    <>
       <button
+        className="button-search"
         type="button"
         onClick={ () => setToggleInput(!toggleInput) }
       >
         <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
       </button>
+      <div />
       { toggleInput && renderSearchBar()}
-    </div>
+    </>
   );
 }
 

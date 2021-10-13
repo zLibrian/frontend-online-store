@@ -26,16 +26,16 @@ export default function ExploreIngredientDrink() {
   }
 
   return (
-    <div>
+    <>
       <header className="header">
         <Header title="Explorar Ingredientes" />
       </header>
-      <div>
+      <div className="explorarFoodAndDrinks">
         {
           ingredientsDrink.map((drink, index) => (
             (index < limits) && (
               <button
-                className="btn"
+                className="btn card"
                 name={ drink.stringredient1 }
                 type="button"
                 onClick={ ({ target }) => {
@@ -46,6 +46,7 @@ export default function ExploreIngredientDrink() {
                 <div>
                   <div data-testid={ `${index}-ingredient-card` }>
                     <img
+                      className="card-img-top"
                       name={ drink.strIngredient1 }
                       src={ `https://www.thecocktaildb.com/images/ingredients/${drink.strIngredient1}-Small.png` }
                       data-testid={ `${index}-card-img` }
@@ -56,11 +57,12 @@ export default function ExploreIngredientDrink() {
                 <div
                   name={ drink.strIngredient1 }
                 >
-                  <span
+                  <p
+                    className="rocksGlass"
                     data-testid={ `${index}-card-name` }
                   >
                     { drink.strIngredient1 }
-                  </span>
+                  </p>
                 </div>
               </button>
             )
@@ -68,6 +70,6 @@ export default function ExploreIngredientDrink() {
         }
       </div>
       <Footer />
-    </div>
+    </>
   );
 }

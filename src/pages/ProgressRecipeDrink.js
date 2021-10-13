@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import './ProgressRecipe.css';
+import { useLocation } from 'react-router';
+import CopyButton from '../components/CopyButton';
+import FavoriteButton from '../components/FavoriteButton';
 // www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007
 export default function ProgressRecipeDrink({ match: { params: { id } } }) {
+  const localStorageFavoriteRecipe = localStorage.favoriteRecipes
+  && JSON.parse(localStorage.getItem('favoriteRecipes'))
+    .some((recipe) => recipe.id === id);
+
+  const { pathname } = useLocation();
   const [drink, setDrink] = useState({});
+  const [check, setCheck] = useState(0);
+  const [allCheck, setAllCheck] = useState(true);
   useEffect(() => {
     async function getDrink() {
       const site = 'https://www.thecocktaildb.com';
@@ -29,70 +39,89 @@ export default function ProgressRecipeDrink({ match: { params: { id } } }) {
   function checkIngredient({ target }) {
     target.nextSibling.className = target.checked
       ? 'checkedIngredient' : 'uncheckedIngredient';
+    setCheck(check + 1);
   }
 
-  function handleShare() {
-    global.alert('Link copiado!');
-    navigator.clipboard.writeText('');
-  }
+  useEffect(() => {
+    const elements = document.querySelectorAll('span');
+    const validation = [];
+    elements.forEach((elementDom) => {
+      validation.push(elementDom.classList.contains('checkedIngredient'));
+    });
+    setAllCheck(validation.every((bol) => bol));
+  }, [check]);
 
   return (
-    <div id="current-recipe">
-      <img
-        width="360px"
-        height="250px"
-        data-testid="recipe-photo"
-        src={ `${drink.strDrinkThumb}` }
-        alt="drink"
-      />
-      <h1 data-testid="recipe-title">{ drink.strDrink }</h1>
-      <button
-        data-testid="share-btn"
-        onClick={ handleShare }
-        type="button"
-      >
-        Compartilhar
-      </button>
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        Adicionar aos Favoritos
-      </button>
-      <p data-testid="recipe-category">{ drink.strCategory }</p>
-      <div>
-        {
-          numbers
-            .filter((num) => (
-              Boolean(drink[ing[num - 1]])
+    <div className="card">
+      <div id="current-recipe">
+        <img
+          className="card-img-top"
+          width="100%"
+          height="100%"
+          data-testid="recipe-photo"
+          src={ `${drink.strDrinkThumb}` }
+          alt="drink"
+        />
+        <div className="card-body">
+          <h1 className="card-title" data-testid="recipe-title">{ drink.strDrink }</h1>
+          <CopyButton pathname={ pathname } typeUrl={ `bebidas/${id}` } />
+          <FavoriteButton
+            cardFavorite={ drink }
+            type="Drink"
+            favorite={ localStorageFavoriteRecipe }
+          />
+          <p data-testid="recipe-category">{ drink.strCategory }</p>
+          <div>
+            {
+              numbers
+                .filter((num) => (
+                  Boolean(drink[ing[num - 1]])
               || Boolean(drink[measures[num - 1]])
-            ))
-            .map((num) => (
-              <div key={ `section-${num - 1}` }>
-                <label
-                  htmlFor={ `${num - 1}-ingredient-check` }
-                  data-testid={ `${num - 1}-ingredient-step` }
-                >
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    id={ `${num - 1}-ingredient-check` }
-                    value={ num - 1 }
-                    defaultChecked
-                    onChange={ ({ target }) => !target.checked }
-                    onClick={ checkIngredient }
-                  />
-                  <span>
-                    { `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}` }
-                  </span>
-                </label>
-                <br />
-              </div>
-            ))
-        }
+                ))
+                .map((num) => (
+                  <div key={ `section-${num - 1}` }>
+                    <label
+                      htmlFor={ `${num - 1}-ingredient-check` }
+                      data-testid={ `${num - 1}-ingredient-step` }
+                    >
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        id={ `${num - 1}-ingredient-check` }
+                        value={ num - 1 }
+                        defaultChecked
+                        onChange={ ({ target }) => !target.checked }
+                        onClick={ checkIngredient }
+                      />
+                      <span className="checkedIngredient">
+                        {
+                          `${drink[measures[num - 1]] || ''} ${drink[ing[num - 1]] || ''}`
+                        }
+                      </span>
+                    </label>
+                    <br />
+                  </div>
+                ))
+            }
+          </div>
+          <p
+            data-testid="instructions"
+            className="instructions card-text"
+          >
+            { drink.strInstructions }
+
+          </p>
+          <button
+            className="btn btn-outline-dark"
+            type="button"
+            data-testid="finish-recipe-btn"
+            disabled={ !allCheck }
+          >
+            Receita Finalizada
+
+          </button>
+        </div>
       </div>
-      <p data-testid="instructions" className="instructions">{ drink.strInstructions }</p>
-      <button type="button" data-testid="finish-recipe-btn">Receita Finalizada</button>
     </div>
   );
 }

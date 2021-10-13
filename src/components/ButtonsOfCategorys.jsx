@@ -42,7 +42,7 @@ export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
       : (
         <div className="buttonCategory">
           <button
-            className="btn btn-primary"
+            className="btn btn-outline-dark"
             type="button"
             onClick={ handleClick }
             data-testid="All-category-filter"
@@ -53,7 +53,7 @@ export default function ButtonsOfCategory({ func, typeCategory, funcFilter }) {
             if (index >= MAX_CARDS) return '';
             return (
               <button
-                className="btn btn-primary"
+                className="btn btn-outline-dark"
                 data-testid={ `${category.strCategory}-category-filter` }
                 type="button"
                 key={ index }
